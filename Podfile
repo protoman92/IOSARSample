@@ -6,5 +6,4 @@ target 'IOSARSample' do
   use_frameworks!
 
   # Pods for IOSARSample
-  pod 'ARCore', '~> 1.4.0'
 end

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B09B63B3B6848077C586A0F4 /* Pods_IOSARSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */; };
+		D3153134228DE3940062CAC4 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3153133228DE3940062CAC4 /* QRScanner.swift */; };
+		D3153136228DE3A70062CAC4 /* SCNVector3+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3153135228DE3A70062CAC4 /* SCNVector3+Extension.swift */; };
 		D384EF69228C97FC00DE6925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384EF68228C97FC00DE6925 /* AppDelegate.swift */; };
 		D384EF6B228C97FC00DE6925 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384EF6A228C97FC00DE6925 /* ViewController.swift */; };
 		D384EF6E228C97FC00DE6925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D384EF6C228C97FC00DE6925 /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 		1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSARSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2B08945DACA80FDEB97D59 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
 		A9D4D50777A13108F16C9130 /* Pods-IOSARSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.release.xcconfig"; path = "Target Support Files/Pods-IOSARSample/Pods-IOSARSample.release.xcconfig"; sourceTree = "<group>"; };
+		D3153133228DE3940062CAC4 /* QRScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
+		D3153135228DE3A70062CAC4 /* SCNVector3+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extension.swift"; sourceTree = "<group>"; };
 		D384EF65228C97FC00DE6925 /* IOSARSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSARSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D384EF68228C97FC00DE6925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D384EF6A228C97FC00DE6925 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +61,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D3153132228DE37B0062CAC4 /* QRScanner */ = {
+			isa = PBXGroup;
+			children = (
+				D3153133228DE3940062CAC4 /* QRScanner.swift */,
+				D3153135228DE3A70062CAC4 /* SCNVector3+Extension.swift */,
+			);
+			path = QRScanner;
+			sourceTree = "<group>";
+		};
 		D384EF5C228C97FC00DE6925 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +91,7 @@
 		D384EF67228C97FC00DE6925 /* IOSARSample */ = {
 			isa = PBXGroup;
 			children = (
+				D3153132228DE37B0062CAC4 /* QRScanner */,
 				D384EF74228C97FE00DE6925 /* Info.plist */,
 				D384EF68228C97FC00DE6925 /* AppDelegate.swift */,
 				D384EF6A228C97FC00DE6925 /* ViewController.swift */,
@@ -99,8 +113,6 @@
 				D384EF61228C97FC00DE6925 /* Sources */,
 				D384EF62228C97FC00DE6925 /* Frameworks */,
 				D384EF63228C97FC00DE6925 /* Resources */,
-				CB609EEFB2870C31C4B7EFED /* [CP] Embed Pods Frameworks */,
-				16C6E78D85BE60852C338371 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -158,54 +170,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		16C6E78D85BE60852C338371 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOSARSample/Pods-IOSARSample-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/ARCore/ARCoreResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ARCoreResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOSARSample/Pods-IOSARSample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB609EEFB2870C31C4B7EFED /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOSARSample/Pods-IOSARSample-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOSARSample/Pods-IOSARSample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		FB11092AF11F73BB6F2AD3C0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,8 +199,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3153134228DE3940062CAC4 /* QRScanner.swift in Sources */,
 				D384EF6B228C97FC00DE6925 /* ViewController.swift in Sources */,
 				D384EF69228C97FC00DE6925 /* AppDelegate.swift in Sources */,
+				D3153136228DE3A70062CAC4 /* SCNVector3+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
