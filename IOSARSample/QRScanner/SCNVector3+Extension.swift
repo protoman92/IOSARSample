@@ -1,9 +1,9 @@
 //
-//  SCNVector3+Extensions.swift
-//  ARKit-QRScanner
+//  SCNVector3+Extension.swift
+//  IOSARSample
 //
-//  Created by Max Cobb on 11/15/18.
-//  Copyright © 2018 Max Cobb. All rights reserved.
+//  Created by Viethai Pham on 17/5/19.
+//  Copyright © 2019 swiften. All rights reserved.
 //
 
 import SceneKit
@@ -20,4 +20,9 @@ internal extension SCNVector3 {
   func setLength(_ mag: Float) -> SCNVector3 {
     return self * (mag / self.length())
   }
+  
+  func twoDPoint() -> CGPoint {
+    return CGPoint(x: CGFloat(self.x), y: CGFloat(self.y))
+  }
 }
+

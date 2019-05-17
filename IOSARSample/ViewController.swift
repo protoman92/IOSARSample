@@ -9,6 +9,18 @@
 import ARKit
 import UIKit
 
+extension SCNMaterial {
+  convenience init(color: UIColor) {
+    self.init()
+    diffuse.contents = color
+  }
+  
+  convenience init(image: UIImage) {
+    self.init()
+    diffuse.contents = image
+  }
+}
+
 public final class ViewController: UIViewController {
   @IBOutlet private weak var sceneKitView: ARSCNView!
   
@@ -35,6 +47,23 @@ public final class ViewController: UIViewController {
     super.viewWillDisappear(animated)
     self.sceneKitView.session.pause()
   }
+  
+  private func calculateScene(_ response: QRResponse) -> SCNScene {
+    let arrowPath = UIBezierPath.arrow(fromTip: response.position.twoDPoint(),
+                                       length: 0.1,
+                                       radianFromTip: 0.785398,
+                                       tailWidth: 0.05,
+                                       headWidth: 0.1,
+                                       headLength: 0.05)
+
+    let shape = SCNShape(path: arrowPath, extrusionDepth: 0)
+    let arrowNode = SCNNode(geometry: shape)
+    arrowNode.position = response.position
+
+    let scene = SCNScene()
+    scene.rootNode.addChildNode(arrowNode)
+    return scene
+  }
 }
 
 // MARK: - ARSessionDelegate
@@ -48,10 +77,10 @@ extension ViewController: ARSessionDelegate {
     let currentTime = Date().timeIntervalSince1970
     guard currentTime - self.lastCallTime > 1 else { return }
     self.lastCallTime = currentTime
-    let qrResponses = self.qrScanner.findQR(in: frame)
-    
-    for response in qrResponses {
-      print(response.feature.messageString ?? "no message found")
-    }
+    self.sceneKitView.scene.rootNode.childNodes.forEach({$0.removeFromParentNode()})
+
+    self.qrScanner.findQR(in: frame).forEach({
+      self.sceneKitView.scene = self.calculateScene($0)
+    })
   }
 }

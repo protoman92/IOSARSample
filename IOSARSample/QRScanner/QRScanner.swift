@@ -14,9 +14,10 @@ public enum QRPositionAccuracy {
 }
 
 public struct QRResponse {
-  public var feature: CIQRCodeFeature
-  public var position: SCNVector3
-  public var accuracy: QRPositionAccuracy
+  public let feature: CIQRCodeFeature
+  public let position: SCNVector3
+  public let hitResult: ARHitTestResult
+  public let accuracy: QRPositionAccuracy
 }
 
 public final class QRScanner {
@@ -56,43 +57,48 @@ public final class QRScanner {
       camTransform.columns.3.z
     )
     
-    return features.map { feature -> QRResponse in
-      let posInFrame = CGPoint(
-        x: (feature.bottomLeft.x + feature.topRight.x) / 2,
-        y: (feature.bottomLeft.y + feature.topRight.y) / 2
-      )
-      
-      let hitResult = frame.hitTest(
-        posInFrame,
-        types: [
-          .estimatedVerticalPlane,
-          .estimatedHorizontalPlane,
-          .existingPlane, .featurePoint
-        ])
-      
-      // I'm assuming the qr code is about 0.5m in front of the camera for now
-      // if there is no better estimate
-      // distance seems to be the only reliable metric for this
-      let distanceInfront = hitResult.first?.distance ?? 0.5
-      
-      let camForward = SCNVector3(
-        camTransform.columns.2.x,
-        camTransform.columns.2.y,
-        camTransform.columns.2.z
-        ).setLength(Float(-distanceInfront))
-      
-      return QRResponse(feature: feature, position: SCNVector3(
-        cameraPosition.x + camForward.x,
-        cameraPosition.y + camForward.y,
-        cameraPosition.z + camForward.z
-      ), accuracy: hitResult.isEmpty ? .guess : .distanceApprox)
-      // The transform matrix is always coming back with tiny numbers
-      //      let col3 = firstResult.worldTransform.columns.3
-      //      return SCNVector3(
-      //        col3.x,
-      //        col3.y,
-      //        col3.z
-      //      )
-    }
+    return features
+      .compactMap({ feature -> (ARHitTestResult, CIQRCodeFeature)? in
+        let posInFrame = CGPoint(
+          x: (feature.bottomLeft.x + feature.topRight.x) / 2,
+          y: (feature.bottomLeft.y + feature.topRight.y) / 2
+        )
+        
+        let hitResults = frame.hitTest(
+          posInFrame,
+          types: [
+            .estimatedVerticalPlane,
+            .estimatedHorizontalPlane,
+            .existingPlane, .featurePoint
+          ])
+        
+        return hitResults.first.map({($0, feature)})
+      })
+      .compactMap({$0})
+      .map({ (hitResult, feature) in
+        let distanceInfront = hitResult.distance
+        
+        let camForward = SCNVector3(
+          camTransform.columns.2.x,
+          camTransform.columns.2.y,
+          camTransform.columns.2.z
+          ).setLength(Float(-distanceInfront))
+        
+        return QRResponse(
+          feature: feature,
+          position: SCNVector3(
+            cameraPosition.x + camForward.x,
+            cameraPosition.y + camForward.y,
+            cameraPosition.z + camForward.z),
+          hitResult: hitResult,
+          accuracy: .distanceApprox)
+        // The transform matrix is always coming back with tiny numbers
+        //      let col3 = firstResult.worldTransform.columns.3
+        //      return SCNVector3(
+        //        col3.x,
+        //        col3.y,
+        //        col3.z
+        //      )
+      })
   }
 }
