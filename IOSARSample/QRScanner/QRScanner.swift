@@ -19,14 +19,35 @@ public struct QRResponse {
   public var accuracy: QRPositionAccuracy
 }
 
-public struct QRScanner {
+public final class QRScanner {
+  private let detector: CIDetector
+  
+  public init(_ detector: CIDetector) {
+    self.detector = detector
+  }
+  
+  /// Return just the QR code information given a [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX)
+  ///
+  /// - Parameter buffer: Image of type CIImage from any source
+  /// - Returns: A CoreImage QR code feature
+  public func findQR(in image: CIImage) -> [CIQRCodeFeature] {
+    return self.detector.features(in: image) as? [CIQRCodeFeature] ?? []
+  }
+  
+  /// Return just the QR code information given a [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX)
+  ///
+  /// - Parameter buffer: [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX), provided by ARframe
+  /// - Returns: A CoreImage QR code feature
+  public func findQR(in buffer: CVPixelBuffer) -> [CIQRCodeFeature] {
+    return self.findQR(in: CIImage(cvPixelBuffer: buffer))
+  }
 
   /// Return a list of QR Codes and positions
   ///
   /// - Parameter frame: ARFrame provided by ARKit
   /// - Returns: A QRResponse array containing the estimated position, feature and accuracy
-  public static func findQR(in frame: ARFrame) -> [QRResponse] {
-    let features = QRScanner.findQR(in: frame.capturedImage)
+  public func findQR(in frame: ARFrame) -> [QRResponse] {
+    let features = self.findQR(in: frame.capturedImage)
     let camTransform = frame.camera.transform
     
     let cameraPosition = SCNVector3(
@@ -73,25 +94,5 @@ public struct QRScanner {
       //        col3.z
       //      )
     }
-  }
-  
-  /// Return just the QR code information given a [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX)
-  ///
-  /// - Parameter buffer: [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX), provided by ARframe
-  /// - Returns: A CoreImage QR code feature
-  public static func findQR(in buffer: CVPixelBuffer) -> [CIQRCodeFeature] {
-    return QRScanner.findQR(in: CIImage(cvPixelBuffer: buffer))
-  }
-  
-  /// Return just the QR code information given a [CVPixelBuffer](apple-reference-documentation://hsVf8OXaJX)
-  ///
-  /// - Parameter buffer: Image of type CIImage from any source
-  /// - Returns: A CoreImage QR code feature
-  public static func findQR(in image: CIImage) -> [CIQRCodeFeature] {
-    guard let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: nil) else {
-      return []
-    }
-    
-    return detector.features(in: image) as? [CIQRCodeFeature] ?? []
   }
 }
