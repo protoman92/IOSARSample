@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ARViewController.swift
 //  IOSARSample
 //
 //  Created by Hai Pham on 16/5/19.
@@ -9,31 +9,32 @@
 import ARKit
 import UIKit
 
-public final class ViewController: UIViewController {
-  @IBOutlet private weak var sceneKitView: ARSCNView!
+public final class ARViewController: UIViewController {
+  @IBOutlet private weak var sceneView: ARSCNView!
   
+  public lazy var settings: Settings = Settings()
   private lazy var lastCallTime: TimeInterval = 0
   private lazy var lock: NSLock = NSLock()
   
   override public func viewDidLoad() {
     super.viewDidLoad()    
-    self.sceneKitView.session.delegate = self
+    self.sceneView.session.delegate = self
   }
   
   override public func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     let configuration = ARWorldTrackingConfiguration()
-    self.sceneKitView.session.run(configuration)
+    self.sceneView.session.run(configuration)
   }
   
   override public func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.sceneKitView.session.pause()
+    self.sceneView.session.pause()
   }
 }
 
 // MARK: - ARSessionDelegate
-extension ViewController: ARSessionDelegate {
+extension ARViewController: ARSessionDelegate {
   
   /// We need to throttle the update because otherwise CIDetector will throw
   /// bad access (due to influx of updates).
