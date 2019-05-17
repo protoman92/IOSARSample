@@ -19,8 +19,7 @@
 
 /* Begin PBXFileReference section */
 		1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSARSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F2B08945DACA80FDEB97D59 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
-		A9D4D50777A13108F16C9130 /* Pods-IOSARSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.release.xcconfig"; path = "Target Support Files/Pods-IOSARSample/Pods-IOSARSample.release.xcconfig"; sourceTree = "<group>"; };
+		508C72559B8C8BE92B20ADC1 /* Pods-IOSARSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.release.xcconfig"; sourceTree = "<group>"; };
 		D3153133228DE3940062CAC4 /* QRScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		D3153135228DE3A70062CAC4 /* SCNVector3+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extension.swift"; sourceTree = "<group>"; };
 		D384EF65228C97FC00DE6925 /* IOSARSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSARSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,6 +29,7 @@
 		D384EF6F228C97FE00DE6925 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D384EF72228C97FE00DE6925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D384EF74228C97FE00DE6925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,13 +44,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B4375695C39FD2CAABE4278 /* Pods */ = {
+		46154EE70E957AA52D5C3E97 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4F2B08945DACA80FDEB97D59 /* Pods-IOSARSample.debug.xcconfig */,
-				A9D4D50777A13108F16C9130 /* Pods-IOSARSample.release.xcconfig */,
+				EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */,
+				508C72559B8C8BE92B20ADC1 /* Pods-IOSARSample.release.xcconfig */,
 			);
-			path = Pods;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		729558723344BAB6FCB1C8DE /* Frameworks */ = {
@@ -75,8 +75,8 @@
 			children = (
 				D384EF67228C97FC00DE6925 /* IOSARSample */,
 				D384EF66228C97FC00DE6925 /* Products */,
-				1B4375695C39FD2CAABE4278 /* Pods */,
 				729558723344BAB6FCB1C8DE /* Frameworks */,
+				46154EE70E957AA52D5C3E97 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -346,7 +346,7 @@
 		};
 		D384EF78228C97FE00DE6925 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F2B08945DACA80FDEB97D59 /* Pods-IOSARSample.debug.xcconfig */;
+			baseConfigurationReference = EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -365,7 +365,7 @@
 		};
 		D384EF79228C97FE00DE6925 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A9D4D50777A13108F16C9130 /* Pods-IOSARSample.release.xcconfig */;
+			baseConfigurationReference = 508C72559B8C8BE92B20ADC1 /* Pods-IOSARSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
