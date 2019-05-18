@@ -30,7 +30,7 @@ public final class Calculation {
     return earthRadius * c
   }
   
-  public static func bearing(start: Coordinate, end: Coordinate) -> Double {
+  public static func bearingRadian(start: Coordinate, end: Coordinate) -> Double {
     var bearing: Double = 0
     let lat1 = degreeToRadian(start.latitude)
     let lon1 = degreeToRadian(start.longitude)
@@ -39,9 +39,6 @@ public final class Calculation {
     let dLon = lon2 - lon1
     let y = sin(dLon) * cos(lat2)
     let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
-    let radiansBearing = atan2(y, x)
-    bearing = radianToDegree(radiansBearing)
-    if(bearing < 0) { bearing += 360 }
-    return bearing
+    return atan2(y, x)
   }
 }

@@ -19,18 +19,16 @@ private func glMatrixToMatrix(_ matrix: GLKMatrix4) -> simd_float4x4 {
 }
 
 public struct MatrixTransformer {
-  private let matrix: simd_float4x4
   private let transformers: [simd_float4x4]
   
-  public init(_ matrix: simd_float4x4, _ transformers: [simd_float4x4] = []) {
-    self.matrix = matrix
+  public init(_ transformers: [simd_float4x4] = []) {
     self.transformers = transformers
   }
   
   public func appending(transformer: simd_float4x4) -> MatrixTransformer {
     var tfCopy = self.transformers
     tfCopy.append(transformer)
-    return MatrixTransformer(matrix, tfCopy)
+    return MatrixTransformer(tfCopy)
   }
   
   public func translate<BX, BY, BZ>(x: BX, y: BY, z: BZ) -> MatrixTransformer where
@@ -70,9 +68,9 @@ public struct MatrixTransformer {
     return self.rotateZ(radian: Calculation.degreeToRadian(degree))
   }
   
-  public func transform() -> simd_float4x4 {
+  public func transform(_ matrix: simd_float4x4) -> simd_float4x4 {
     let transformer = self.transformers.reduce(matrix_identity_float4x4, simd_mul)
-    return simd_mul(self.matrix, transformer)
+    return simd_mul(matrix, transformer)
   }
   
   private func rotate(_ matrix: GLKMatrix4) -> MatrixTransformer {

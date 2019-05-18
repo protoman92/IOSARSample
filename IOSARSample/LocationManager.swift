@@ -12,19 +12,21 @@ public final class LocationManager: NSObject {
   private let locationManager: CLLocationManager
   private let lock = NSLock()
   private var locationCallbacks = [(CLLocation) -> Void]()
-  private var lastLocation: CLLocation?
+  public private(set) var lastLocation: CLLocation?
   
   override public init() {
     self.locationManager = CLLocationManager()
     super.init()
     self.locationManager.delegate = self
     self.locationManager.requestWhenInUseAuthorization()
+    self.locationManager.startUpdatingLocation()
   }
   
   public func register(locationCallback cb: @escaping (CLLocation) -> Void) {
     self.lock.lock()
     defer { self.lock.unlock() }
     self.locationCallbacks.append(cb)
+    self.lastLocation.map(cb)
   }
 }
 

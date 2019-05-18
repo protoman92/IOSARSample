@@ -15,11 +15,12 @@ public final class ARViewController: UIViewController {
   
   public lazy var settings: Settings = Settings()
   private lazy var locationManager: LocationManager = LocationManager()
-  private lazy var lastCallTime: TimeInterval = 0
-  private lazy var lock: NSLock = NSLock()
+  private let lock = NSLock()
+  private var lastAnchor: ARAnchor?
   
   override public func viewDidLoad() {
-    super.viewDidLoad()    
+    super.viewDidLoad()
+    self.sceneView.delegate = self
     self.sceneView.session.delegate = self
 
     self.locationManager.register(locationCallback: {[weak self] in
@@ -39,21 +40,34 @@ public final class ARViewController: UIViewController {
     self.sceneView.session.pause()
   }
   
-  private func onLocationChange(_ location: CLLocation) {
-    guard let currentFrame = self.sceneView.session.currentFrame else { return }
+  private func onLocationChange(_ location: CLLocation) {}
+}
+
+// MARK: - ARSCNViewDelegate
+extension ARViewController: ARSCNViewDelegate {
+  public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+    let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+    let boxNode = SCNNode(geometry: box)
+    return boxNode
   }
 }
 
 // MARK: - ARSessionDelegate
 extension ARViewController: ARSessionDelegate {
-  
-  /// We need to throttle the update because otherwise CIDetector will throw
-  /// bad access (due to influx of updates).
   public func session(_ session: ARSession, didUpdate frame: ARFrame) {
     self.lock.lock()
     defer { self.lock.unlock() }
-    let currentTime = Date().timeIntervalSince1970
-    guard currentTime - self.lastCallTime > 1 else { return }
-    self.lastCallTime = currentTime
+    self.lastAnchor.map(session.remove)
+    guard let start = self.locationManager.lastLocation.map(Coordinate.init) else { return }
+    let end = self.settings.coordinate
+    
+    let transform = MatrixTransformer()
+      .translate(x: 0, y: 0, z: -0.5)
+      .rotateY(radian: Calculation.bearingRadian(start: start, end: end))
+      .transform(frame.camera.transform)
+    
+    let anchor = ARAnchor(transform: transform)
+    self.lastAnchor = anchor
+    self.sceneView.session.add(anchor: anchor)
   }
 }
