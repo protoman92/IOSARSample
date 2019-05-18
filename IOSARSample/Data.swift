@@ -50,17 +50,21 @@ public struct Coordinate {
 
 public struct Settings {
   public private(set) var coordinate: Coordinate
+  public private(set) var updateInterval: TimeInterval
   
-  public init(coordinate: Coordinate) {
+  public init(coordinate: Coordinate, updateInterval: TimeInterval) {
     self.coordinate = coordinate
+    self.updateInterval = updateInterval
   }
   
   public init() {
-    self.init(coordinate: Coordinate(latitude: 0, longitude: 0))
+    self.init(coordinate: Coordinate(latitude: 0, longitude: 0),
+              updateInterval: 0)
   }
   
   private init(_ settings: Settings) {
-    self.coordinate = settings.coordinate
+    self.init(coordinate: settings.coordinate,
+              updateInterval: settings.updateInterval)
   }
   
   public func with(coordinate: Coordinate) -> Settings {
@@ -75,5 +79,11 @@ public struct Settings {
   
   public func with(longitude: Double) -> Settings {
     return self.with(coordinate: self.coordinate.with(longitude: longitude))
+  }
+  
+  public func with(updateInterval: TimeInterval) -> Settings {
+    var copy = Settings(self)
+    copy.updateInterval = updateInterval
+    return copy
   }
 }

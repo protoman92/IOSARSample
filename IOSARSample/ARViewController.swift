@@ -13,7 +13,7 @@ import UIKit
 public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   
-  public lazy var settings: Settings = Settings()
+  public var simulator: CoordinateSimulator!
   private let lock = NSLock()
   private var lastAnchor: ARAnchor?
   
@@ -24,6 +24,10 @@ public final class ARViewController: UIViewController {
 
     LocationManager.instance.on(locationChange: {[weak self] in
       self?.onLocationChange($0)
+    })
+    
+    self.simulator.on(coordinateChanged: {[weak self] in
+      self?.onTargetCoordinateChange($0)
     })
   }
   
@@ -41,18 +45,30 @@ public final class ARViewController: UIViewController {
   
   private func onLocationChange(_ location: CLLocation) {
     let session = self.sceneView.session
-    guard let currentFrame = session.currentFrame else { return }
-    self.showVisual(session, currentFrame, location)
+    guard let frame = session.currentFrame else { return }
+    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
+  }
+  
+  private func onTargetCoordinateChange(_ coordinate: Coordinate) {
+    let session = self.sceneView.session
+
+    guard
+      let frame = session.currentFrame,
+      let location = LocationManager.instance.lastLocation
+      else { return }
+    
+    self.showVisual(session, frame, location, coordinate)
   }
   
   private func showVisual(_ session: ARSession,
                           _ frame: ARFrame,
-                          _ currentLocation: CLLocation) {
+                          _ currentLocation: CLLocation,
+                          _ targetCoordinate: Coordinate) {
     self.lock.lock()
     defer { self.lock.unlock() }
     self.lastAnchor.map(session.remove)
     let start = Coordinate(location: currentLocation)
-    let end = self.settings.coordinate
+    let end = targetCoordinate
     let distance = Calculation.haversineM(start: start, end: end)
     
     let transform = MatrixTransformer()
@@ -79,6 +95,6 @@ extension ARViewController: ARSCNViewDelegate {
 extension ARViewController: ARSessionDelegate {
   public func session(_ session: ARSession, didUpdate frame: ARFrame) {
     guard let location = LocationManager.instance.lastLocation else { return }
-    self.showVisual(session, frame, location)
+    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
   }
 }

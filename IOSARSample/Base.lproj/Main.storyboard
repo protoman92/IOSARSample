@@ -72,11 +72,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-3X-of2">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-3X-of2">
                                 <rect key="frame" x="195.5" y="80" width="163.5" height="40"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude Offset" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-Af-sv2" userLabel="LongitudeOffset">
                                 <rect key="frame" x="16" y="136" width="163.5" height="40"/>
@@ -84,14 +84,26 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-HZ-ugs">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-HZ-ugs">
                                 <rect key="frame" x="195.5" y="136" width="163.5" height="40"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update interval" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7d2-Em-O3Z">
+                                <rect key="frame" x="16" y="192" width="163.5" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In milliseconds" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CsV-7U-kA8">
+                                <rect key="frame" x="195.5" y="192" width="163.5" height="40"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5p-0R-fVx">
-                                <rect key="frame" x="16" y="192" width="343" height="459"/>
+                                <rect key="frame" x="16" y="248" width="343" height="403"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -105,19 +117,27 @@
                             <constraint firstItem="wP9-HZ-ugs" firstAttribute="trailing" secondItem="f5p-0R-fVx" secondAttribute="trailing" id="GSA-In-JkK"/>
                             <constraint firstItem="wP9-HZ-ugs" firstAttribute="bottom" secondItem="Ti6-Af-sv2" secondAttribute="bottom" id="GSz-ZZ-LAl"/>
                             <constraint firstItem="wP9-HZ-ugs" firstAttribute="trailing" secondItem="CeC-3X-of2" secondAttribute="trailing" id="Iii-R6-uhG"/>
+                            <constraint firstItem="CsV-7U-kA8" firstAttribute="top" secondItem="7d2-Em-O3Z" secondAttribute="top" id="PXc-rK-Quv"/>
                             <constraint firstItem="Ti6-Af-sv2" firstAttribute="height" secondItem="XDd-yW-1Qf" secondAttribute="height" id="REN-TP-o3A"/>
+                            <constraint firstItem="7d2-Em-O3Z" firstAttribute="height" secondItem="Ti6-Af-sv2" secondAttribute="height" id="TfJ-kV-zDD"/>
                             <constraint firstItem="Ti6-Af-sv2" firstAttribute="leading" secondItem="XDd-yW-1Qf" secondAttribute="leading" id="U3z-15-Nfc"/>
+                            <constraint firstItem="CsV-7U-kA8" firstAttribute="bottom" secondItem="7d2-Em-O3Z" secondAttribute="bottom" id="X2T-J0-wHw"/>
                             <constraint firstItem="CeC-3X-of2" firstAttribute="bottom" secondItem="XDd-yW-1Qf" secondAttribute="bottom" id="YwB-1p-M6f"/>
                             <constraint firstItem="wP9-HZ-ugs" firstAttribute="leading" secondItem="CeC-3X-of2" secondAttribute="leading" id="ZyX-Fn-vcC"/>
-                            <constraint firstItem="f5p-0R-fVx" firstAttribute="top" secondItem="Ti6-Af-sv2" secondAttribute="bottom" constant="16" id="gYS-7h-Mup"/>
+                            <constraint firstItem="7d2-Em-O3Z" firstAttribute="trailing" secondItem="Ti6-Af-sv2" secondAttribute="trailing" id="c8g-R7-sf7"/>
+                            <constraint firstItem="CsV-7U-kA8" firstAttribute="trailing" secondItem="wP9-HZ-ugs" secondAttribute="trailing" id="giV-vQ-Fre"/>
+                            <constraint firstItem="7d2-Em-O3Z" firstAttribute="leading" secondItem="Ti6-Af-sv2" secondAttribute="leading" id="hiZ-ah-EkC"/>
                             <constraint firstItem="dkU-bR-IbI" firstAttribute="bottom" secondItem="f5p-0R-fVx" secondAttribute="bottom" constant="16" id="hmW-kK-NqX"/>
                             <constraint firstItem="Ti6-Af-sv2" firstAttribute="trailing" secondItem="XDd-yW-1Qf" secondAttribute="trailing" id="k6Q-tS-Y37"/>
+                            <constraint firstItem="7d2-Em-O3Z" firstAttribute="top" secondItem="Ti6-Af-sv2" secondAttribute="bottom" constant="16" id="kTY-cR-913"/>
                             <constraint firstItem="CeC-3X-of2" firstAttribute="width" secondItem="XDd-yW-1Qf" secondAttribute="width" id="lLi-0I-ux4"/>
                             <constraint firstItem="XDd-yW-1Qf" firstAttribute="leading" secondItem="Nk7-Zd-1rG" secondAttribute="leading" constant="16" id="n52-MZ-sbO"/>
+                            <constraint firstItem="f5p-0R-fVx" firstAttribute="top" secondItem="7d2-Em-O3Z" secondAttribute="bottom" constant="16" id="nuS-EA-qtP"/>
                             <constraint firstItem="wP9-HZ-ugs" firstAttribute="top" secondItem="Ti6-Af-sv2" secondAttribute="top" id="rJR-KT-rQN"/>
                             <constraint firstAttribute="trailing" secondItem="CeC-3X-of2" secondAttribute="trailing" constant="16" id="snw-EJ-o5C"/>
                             <constraint firstItem="XDd-yW-1Qf" firstAttribute="top" secondItem="dkU-bR-IbI" secondAttribute="top" constant="16" id="vXD-Lu-KXD"/>
                             <constraint firstItem="f5p-0R-fVx" firstAttribute="leading" secondItem="Ti6-Af-sv2" secondAttribute="leading" id="y8C-qC-dyq"/>
+                            <constraint firstItem="CsV-7U-kA8" firstAttribute="leading" secondItem="wP9-HZ-ugs" secondAttribute="leading" id="yVT-eB-mGq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dkU-bR-IbI"/>
                     </view>
@@ -126,6 +146,7 @@
                         <outlet property="infoTV" destination="f5p-0R-fVx" id="nm0-vl-2kS"/>
                         <outlet property="latitudeTF" destination="CeC-3X-of2" id="Pc5-3I-MyL"/>
                         <outlet property="longitudeTF" destination="wP9-HZ-ugs" id="vEs-Q1-Y2o"/>
+                        <outlet property="updateIntervalTF" destination="CsV-7U-kA8" id="04e-Wd-QuW"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="visualize" id="MWQ-wM-v0Z"/>
                     </connections>
                 </viewController>

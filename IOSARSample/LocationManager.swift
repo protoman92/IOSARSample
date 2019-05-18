@@ -14,14 +14,20 @@ public final class LocationManager: NSObject {
   private let locationManager: CLLocationManager
   private let lock = NSLock()
   private var locationCallbacks = [(CLLocation) -> Void]()
-  public private(set) var lastLocation: CLLocation?
+  private var location: CLLocation?
+  
+  public var lastLocation: CLLocation? {
+    self.lock.lock()
+    defer { self.lock.unlock() }
+    return self.location
+  }
   
   override private init() {
     self.locationManager = CLLocationManager()
     super.init()
     self.locationManager.delegate = self
     self.locationManager.requestWhenInUseAuthorization()
-    self.lastLocation = self.locationManager.location
+    self.location = self.locationManager.location
     self.locationManager.startUpdatingLocation()
   }
   
@@ -29,7 +35,7 @@ public final class LocationManager: NSObject {
     self.lock.lock()
     defer { self.lock.unlock() }
     self.locationCallbacks.append(cb)
-    self.lastLocation.map(cb)
+    self.location.map(cb)
   }
 }
 
@@ -39,7 +45,7 @@ extension LocationManager: CLLocationManagerDelegate {
     self.lock.lock()
     defer { self.lock.unlock() }
     guard let location = locations.first else { return }
-    self.lastLocation = location
+    self.location = location
     self.locationCallbacks.forEach({$0(location)})
   }
 }
