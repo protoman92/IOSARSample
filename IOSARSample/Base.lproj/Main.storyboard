@@ -63,14 +63,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In meters" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-3X-of2">
-                                <rect key="frame" x="130" y="80" width="229" height="40"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance (m)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDd-yW-1Qf">
-                                <rect key="frame" x="16" y="80" width="98" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance (m)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDd-yW-1Qf" userLabel="Target Latitude">
+                                <rect key="frame" x="16" y="80" width="163.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="oVl-ES-miO"/>
                                 </constraints>
@@ -78,13 +72,40 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-3X-of2">
+                                <rect key="frame" x="195.5" y="80" width="163.5" height="40"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Longitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ti6-Af-sv2" userLabel="Target Longitude">
+                                <rect key="frame" x="16" y="136" width="163.5" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="In degrees" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wP9-HZ-ugs">
+                                <rect key="frame" x="195.5" y="136" width="163.5" height="40"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CeC-3X-of2" firstAttribute="leading" secondItem="XDd-yW-1Qf" secondAttribute="trailing" constant="16" id="4pl-V8-Bir"/>
+                            <constraint firstItem="Ti6-Af-sv2" firstAttribute="top" secondItem="CeC-3X-of2" secondAttribute="bottom" constant="16" id="B03-pV-kPG"/>
                             <constraint firstItem="CeC-3X-of2" firstAttribute="top" secondItem="XDd-yW-1Qf" secondAttribute="top" id="F04-EW-3I7"/>
+                            <constraint firstItem="wP9-HZ-ugs" firstAttribute="bottom" secondItem="Ti6-Af-sv2" secondAttribute="bottom" id="GSz-ZZ-LAl"/>
+                            <constraint firstItem="wP9-HZ-ugs" firstAttribute="trailing" secondItem="CeC-3X-of2" secondAttribute="trailing" id="Iii-R6-uhG"/>
+                            <constraint firstItem="Ti6-Af-sv2" firstAttribute="height" secondItem="XDd-yW-1Qf" secondAttribute="height" id="REN-TP-o3A"/>
+                            <constraint firstItem="Ti6-Af-sv2" firstAttribute="leading" secondItem="XDd-yW-1Qf" secondAttribute="leading" id="U3z-15-Nfc"/>
                             <constraint firstItem="CeC-3X-of2" firstAttribute="bottom" secondItem="XDd-yW-1Qf" secondAttribute="bottom" id="YwB-1p-M6f"/>
+                            <constraint firstItem="wP9-HZ-ugs" firstAttribute="leading" secondItem="CeC-3X-of2" secondAttribute="leading" id="ZyX-Fn-vcC"/>
+                            <constraint firstItem="Ti6-Af-sv2" firstAttribute="trailing" secondItem="XDd-yW-1Qf" secondAttribute="trailing" id="k6Q-tS-Y37"/>
+                            <constraint firstItem="CeC-3X-of2" firstAttribute="width" secondItem="XDd-yW-1Qf" secondAttribute="width" id="lLi-0I-ux4"/>
                             <constraint firstItem="XDd-yW-1Qf" firstAttribute="leading" secondItem="Nk7-Zd-1rG" secondAttribute="leading" constant="16" id="n52-MZ-sbO"/>
+                            <constraint firstItem="wP9-HZ-ugs" firstAttribute="top" secondItem="Ti6-Af-sv2" secondAttribute="top" id="rJR-KT-rQN"/>
                             <constraint firstAttribute="trailing" secondItem="CeC-3X-of2" secondAttribute="trailing" constant="16" id="snw-EJ-o5C"/>
                             <constraint firstItem="XDd-yW-1Qf" firstAttribute="top" secondItem="dkU-bR-IbI" secondAttribute="top" constant="16" id="vXD-Lu-KXD"/>
                         </constraints>
@@ -92,7 +113,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="RaK-FG-7oj"/>
                     <connections>
-                        <outlet property="distanceTF" destination="CeC-3X-of2" id="Pc5-3I-MyL"/>
+                        <outlet property="latitudeTF" destination="CeC-3X-of2" id="Pc5-3I-MyL"/>
+                        <outlet property="longitudeTF" destination="wP9-HZ-ugs" id="vEs-Q1-Y2o"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="visualize" id="MWQ-wM-v0Z"/>
                     </connections>
                 </viewController>

@@ -9,9 +9,10 @@
 import UIKit
 
 public final class SettingViewController: UIViewController {
-  @IBOutlet private weak var distanceTF: UITextField!
+  @IBOutlet private weak var latitudeTF: UITextField!
+  @IBOutlet private weak var longitudeTF: UITextField!
   
-  private lazy var settings: Settings = Settings(distanceInM: 0)
+  private lazy var settings: Settings = Settings()
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -21,9 +22,12 @@ public final class SettingViewController: UIViewController {
       style: .done,
       target: self,
       action: #selector(self.visualize))
-    
-    self.distanceTF.addTarget(self, action: #selector(self.distanceChanged),
+
+    self.latitudeTF.addTarget(self, action: #selector(self.latitudeChanged),
                               for: .editingChanged)
+
+    self.longitudeTF.addTarget(self, action: #selector(self.longitudeChanged),
+                               for: .editingChanged)
   }
   
   override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -36,8 +40,12 @@ public final class SettingViewController: UIViewController {
     }
   }
   
-  @objc func distanceChanged(_ sender: UITextField) {
-    sender.text.flatMap(Double.init).map({settings = settings.with(distanceInM: $0)})
+  @objc func latitudeChanged(_ sender: UITextField) {
+    sender.text.flatMap(Double.init).map({settings = settings.with(latitude: $0)})
+  }
+  
+  @objc func longitudeChanged(_ sender: UITextField) {
+    sender.text.flatMap(Double.init).map({settings = settings.with(longitude: $0)})
   }
   
   @objc func visualize() {
