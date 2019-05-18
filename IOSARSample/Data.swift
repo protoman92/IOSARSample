@@ -32,6 +32,20 @@ public struct Coordinate {
   public func with(longitude: Double) -> Coordinate {
     return Coordinate(latitude: self.latitude, longitude: longitude)
   }
+  
+  public func adding(latitude: Double) -> Coordinate {
+    return self.with(latitude: self.latitude + latitude)
+  }
+  
+  public func adding(longitude: Double) -> Coordinate {
+    return self.with(longitude: self.longitude + longitude)
+  }
+  
+  public func adding(coordinate: Coordinate) -> Coordinate {
+    return self
+      .adding(latitude: coordinate.latitude)
+      .adding(longitude: coordinate.longitude)
+  }
 }
 
 public struct Settings {

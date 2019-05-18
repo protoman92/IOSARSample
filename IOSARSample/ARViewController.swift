@@ -14,7 +14,6 @@ public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   
   public lazy var settings: Settings = Settings()
-  private lazy var locationManager: LocationManager = LocationManager()
   private let lock = NSLock()
   private var lastAnchor: ARAnchor?
   
@@ -23,7 +22,7 @@ public final class ARViewController: UIViewController {
     self.sceneView.delegate = self
     self.sceneView.session.delegate = self
 
-    self.locationManager.register(locationCallback: {[weak self] in
+    LocationManager.instance.on(locationChange: {[weak self] in
       self?.onLocationChange($0)
     })
   }
@@ -40,13 +39,37 @@ public final class ARViewController: UIViewController {
     self.sceneView.session.pause()
   }
   
-  private func onLocationChange(_ location: CLLocation) {}
+  private func onLocationChange(_ location: CLLocation) {
+    let session = self.sceneView.session
+    guard let currentFrame = session.currentFrame else { return }
+    self.showVisual(session, currentFrame, location)
+  }
+  
+  private func showVisual(_ session: ARSession,
+                          _ frame: ARFrame,
+                          _ currentLocation: CLLocation) {
+    self.lock.lock()
+    defer { self.lock.unlock() }
+    self.lastAnchor.map(session.remove)
+    let start = Coordinate(location: currentLocation)
+    let end = self.settings.coordinate
+    let distance = Calculation.haversineM(start: start, end: end)
+    
+    let transform = MatrixTransformer()
+      .translate(x: 0, y: 0, z: -distance / 10)
+      .rotateY(radian: -Calculation.bearingRadian(start: start, end: end))
+      .transform(frame.camera.transform)
+    
+    let anchor = ARAnchor(transform: transform)
+    self.lastAnchor = anchor
+    self.sceneView.session.add(anchor: anchor)
+  }
 }
 
 // MARK: - ARSCNViewDelegate
 extension ARViewController: ARSCNViewDelegate {
   public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-    let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+    let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
     let boxNode = SCNNode(geometry: box)
     return boxNode
   }
@@ -55,19 +78,7 @@ extension ARViewController: ARSCNViewDelegate {
 // MARK: - ARSessionDelegate
 extension ARViewController: ARSessionDelegate {
   public func session(_ session: ARSession, didUpdate frame: ARFrame) {
-    self.lock.lock()
-    defer { self.lock.unlock() }
-    self.lastAnchor.map(session.remove)
-    guard let start = self.locationManager.lastLocation.map(Coordinate.init) else { return }
-    let end = self.settings.coordinate
-    
-    let transform = MatrixTransformer()
-      .translate(x: 0, y: 0, z: -0.5)
-      .rotateY(radian: Calculation.bearingRadian(start: start, end: end))
-      .transform(frame.camera.transform)
-    
-    let anchor = ARAnchor(transform: transform)
-    self.lastAnchor = anchor
-    self.sceneView.session.add(anchor: anchor)
+    guard let location = LocationManager.instance.lastLocation else { return }
+    self.showVisual(session, frame, location)
   }
 }

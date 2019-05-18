@@ -8,11 +8,29 @@
 
 import UIKit
 
+fileprivate extension Coordinate {
+  init(offset: Double) {
+    self.init(latitude: offset, longitude: offset)
+  }
+}
+
 public final class SettingViewController: UIViewController {
   @IBOutlet private weak var latitudeTF: UITextField!
   @IBOutlet private weak var longitudeTF: UITextField!
+  @IBOutlet private weak var infoTV: UITextView!
   
-  private lazy var settings: Settings = Settings()
+  private var coordinateOffset = Coordinate(offset: 0.0001) {
+    didSet { self.coordinateOffsetChanged() }
+  }
+  
+  private var currentCoordinate: Coordinate {
+    let currentLocation = LocationManager.instance.lastLocation!
+    return Coordinate(location: currentLocation)
+  }
+  
+  private var targetCoordinate: Coordinate {
+    return self.currentCoordinate.adding(coordinate: self.coordinateOffset)
+  }
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -23,29 +41,60 @@ public final class SettingViewController: UIViewController {
       target: self,
       action: #selector(self.visualize))
 
-    self.latitudeTF.addTarget(self, action: #selector(self.latitudeChanged),
+    self.latitudeTF.addTarget(self, action: #selector(self.latitudeOffsetChanged),
                               for: .editingChanged)
 
-    self.longitudeTF.addTarget(self, action: #selector(self.longitudeChanged),
+    self.longitudeTF.addTarget(self, action: #selector(self.longitudeOffsetChanged),
                                for: .editingChanged)
+    
+    self.latitudeTF.text = String(describing: coordinateOffset.latitude)
+    self.longitudeTF.text = String(describing: coordinateOffset.longitude)
+  }
+  
+  override public func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.coordinateOffsetChanged()
   }
   
   override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     switch segue.destination {
     case let arController as ARViewController:
-      arController.settings = self.settings
+      let currentLocation = LocationManager.instance.lastLocation!
+      
+      let coordinate = Coordinate(location: currentLocation)
+        .adding(coordinate: self.coordinateOffset)
+      
+      arController.settings = Settings(coordinate: coordinate)
       
     default:
       fatalError("Unexpeced segue to \(segue.identifier ?? "")")
     }
   }
   
-  @objc func latitudeChanged(_ sender: UITextField) {
-    sender.text.flatMap(Double.init).map({settings = settings.with(latitude: $0)})
+  private func coordinateOffsetChanged() {
+    let start = self.currentCoordinate
+    let end = self.targetCoordinate
+    
+    let infoText = """
+      Target latitude: \(end.latitude)
+      Target longitude: \(end.longitude)
+      Distance in meter: \(Calculation.haversineM(start: start, end: end))
+      Bearing in degree: \(Calculation.bearingDegree(start: start, end: end))
+    """
+    
+    self.infoTV.text = infoText
   }
   
-  @objc func longitudeChanged(_ sender: UITextField) {
-    sender.text.flatMap(Double.init).map({settings = settings.with(longitude: $0)})
+  @objc func latitudeOffsetChanged(_ sender: UITextField) {
+    sender.text.flatMap(Double.init).map({
+      self.coordinateOffset = self.coordinateOffset.with(latitude: $0)
+    })
+  }
+  
+  @objc func longitudeOffsetChanged(_ sender: UITextField) {
+    sender.text.flatMap(Double.init).map({
+      self.coordinateOffset = self.coordinateOffset.with(longitude: $0)
+    })
   }
   
   @objc func visualize() {

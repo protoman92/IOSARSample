@@ -9,20 +9,23 @@
 import CoreLocation
 
 public final class LocationManager: NSObject {
+  public static let instance = LocationManager()
+  
   private let locationManager: CLLocationManager
   private let lock = NSLock()
   private var locationCallbacks = [(CLLocation) -> Void]()
   public private(set) var lastLocation: CLLocation?
   
-  override public init() {
+  override private init() {
     self.locationManager = CLLocationManager()
     super.init()
     self.locationManager.delegate = self
     self.locationManager.requestWhenInUseAuthorization()
+    self.lastLocation = self.locationManager.location
     self.locationManager.startUpdatingLocation()
   }
   
-  public func register(locationCallback cb: @escaping (CLLocation) -> Void) {
+  public func on(locationChange cb: @escaping (CLLocation) -> Void) {
     self.lock.lock()
     defer { self.lock.unlock() }
     self.locationCallbacks.append(cb)

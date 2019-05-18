@@ -17,7 +17,7 @@ public final class Calculation {
     return radian * 180 / B.pi
   }
   
-  public static func haversine(start: Coordinate, end: Coordinate) -> Double {
+  public static func haversineKM(start: Coordinate, end: Coordinate) -> Double {
     let earthRadius = 6378.137
     let lat1rad = degreeToRadian(start.latitude)
     let lon1rad = degreeToRadian(start.longitude)
@@ -30,8 +30,11 @@ public final class Calculation {
     return earthRadius * c
   }
   
+  public static func haversineM(start: Coordinate, end: Coordinate) -> Double {
+    return haversineKM(start: start, end: end) * 1000
+  }
+  
   public static func bearingRadian(start: Coordinate, end: Coordinate) -> Double {
-    var bearing: Double = 0
     let lat1 = degreeToRadian(start.latitude)
     let lon1 = degreeToRadian(start.longitude)
     let lat2 = degreeToRadian(end.latitude)
@@ -40,5 +43,12 @@ public final class Calculation {
     let y = sin(dLon) * cos(lat2)
     let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
     return atan2(y, x)
+  }
+  
+  public static func bearingDegree(start: Coordinate, end: Coordinate) -> Double {
+    let radian = bearingRadian(start: start, end: end)
+    var degree = radianToDegree(radian)
+    if degree < 0 { degree += 360 }
+    return degree
   }
 }
