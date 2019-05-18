@@ -13,6 +13,8 @@
 		D384EF70228C97FE00DE6925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D384EF6F228C97FE00DE6925 /* Assets.xcassets */; };
 		D384EF73228C97FE00DE6925 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D384EF71228C97FE00DE6925 /* LaunchScreen.storyboard */; };
 		EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E5F228FA38600330ED2 /* LocationManager.swift */; };
+		EE5B5E62228FA86200330ED2 /* Matrix+Transformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */; };
+		EE5B5E64228FC75000330ED2 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E63228FC75000330ED2 /* Calculation.swift */; };
 		EE646EC7228EFA4F00305FDE /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE646EC6228EFA4F00305FDE /* UIBezierPath+Extension.swift */; };
 		EE646ECC228F2ACA00305FDE /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE646ECB228F2ACA00305FDE /* SettingViewController.swift */; };
 		EE646ECD228F2C3F00305FDE /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384EF6A228C97FC00DE6925 /* ARViewController.swift */; };
@@ -31,6 +33,8 @@
 		D384EF74228C97FE00DE6925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
 		EE5B5E5F228FA38600330ED2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Matrix+Transformation.swift"; sourceTree = "<group>"; };
+		EE5B5E63228FC75000330ED2 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
 		EE646EC6228EFA4F00305FDE /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
 		EE646ECB228F2ACA00305FDE /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		EE646ECE228F2CC400305FDE /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -89,13 +93,15 @@
 				D384EF74228C97FE00DE6925 /* Info.plist */,
 				D384EF68228C97FC00DE6925 /* AppDelegate.swift */,
 				D384EF6A228C97FC00DE6925 /* ARViewController.swift */,
+				EE5B5E63228FC75000330ED2 /* Calculation.swift */,
 				EE646ECE228F2CC400305FDE /* Data.swift */,
+				EE5B5E5F228FA38600330ED2 /* LocationManager.swift */,
+				EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */,
 				EE646ECB228F2ACA00305FDE /* SettingViewController.swift */,
 				EE646EC6228EFA4F00305FDE /* UIBezierPath+Extension.swift */,
 				D384EF6F228C97FE00DE6925 /* Assets.xcassets */,
 				D384EF71228C97FE00DE6925 /* LaunchScreen.storyboard */,
 				D384EF6C228C97FC00DE6925 /* Main.storyboard */,
-				EE5B5E5F228FA38600330ED2 /* LocationManager.swift */,
 			);
 			path = IOSARSample;
 			sourceTree = "<group>";
@@ -198,11 +204,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D384EF69228C97FC00DE6925 /* AppDelegate.swift in Sources */,
+				EE5B5E64228FC75000330ED2 /* Calculation.swift in Sources */,
 				EE646ECF228F2CC400305FDE /* Data.swift in Sources */,
 				EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */,
 				EE646EC7228EFA4F00305FDE /* UIBezierPath+Extension.swift in Sources */,
 				EE646ECC228F2ACA00305FDE /* SettingViewController.swift in Sources */,
 				EE646ECD228F2C3F00305FDE /* ARViewController.swift in Sources */,
+				EE5B5E62228FA86200330ED2 /* Matrix+Transformation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,6 +30,7 @@ public final class ARViewController: UIViewController {
   override public func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     let configuration = ARWorldTrackingConfiguration()
+    configuration.worldAlignment = .gravityAndHeading
     self.sceneView.session.run(configuration)
   }
   
@@ -38,7 +39,9 @@ public final class ARViewController: UIViewController {
     self.sceneView.session.pause()
   }
   
-  private func onLocationChange(_ location: CLLocation) {}
+  private func onLocationChange(_ location: CLLocation) {
+    guard let currentFrame = self.sceneView.session.currentFrame else { return }
+  }
 }
 
 // MARK: - ARSessionDelegate
