@@ -46,6 +46,7 @@ public final class ARViewController: UIViewController {
   private func onLocationChange(_ location: CLLocation) {
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
+    print("Visualizing based on current location")
     self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
   }
   
@@ -57,6 +58,7 @@ public final class ARViewController: UIViewController {
       let location = LocationManager.instance.lastLocation
       else { return }
     
+    print("Visualizing based on target coordinate")
     self.showVisual(session, frame, location, coordinate)
   }
   
@@ -72,9 +74,10 @@ public final class ARViewController: UIViewController {
     let distance = Calculation.haversineM(start: start, end: end)
     
     let transform = MatrixTransformer()
+      .appending(transformer: frame.camera.transform)
       .translate(x: 0, y: 0, z: -distance / 10)
-      .rotateY(radian: -Calculation.bearingRadian(start: start, end: end))
-      .transform(frame.camera.transform)
+      .rotateY(degree: -Calculation.bearingDegree(start: start, end: end))
+      .transformer()
     
     let anchor = ARAnchor(transform: transform)
     self.lastAnchor = anchor
@@ -85,7 +88,7 @@ public final class ARViewController: UIViewController {
 // MARK: - ARSCNViewDelegate
 extension ARViewController: ARSCNViewDelegate {
   public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-    let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+    let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.1)
     let boxNode = SCNNode(geometry: box)
     return boxNode
   }
@@ -94,7 +97,7 @@ extension ARViewController: ARSCNViewDelegate {
 // MARK: - ARSessionDelegate
 extension ARViewController: ARSessionDelegate {
   public func session(_ session: ARSession, didUpdate frame: ARFrame) {
-    guard let location = LocationManager.instance.lastLocation else { return }
-    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
+//    guard let location = LocationManager.instance.lastLocation else { return }
+//    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
   }
 }

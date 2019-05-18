@@ -7,6 +7,7 @@
 //
 
 import CoreGraphics
+import GLKit
 
 public final class Calculation {
   public static func degreeToRadian<B>(_ degree: B) -> B where B: BinaryFloatingPoint {
@@ -34,7 +35,7 @@ public final class Calculation {
     return haversineKM(start: start, end: end) * 1000
   }
   
-  public static func bearingRadian(start: Coordinate, end: Coordinate) -> Double {
+  public static func bearingDegree(start: Coordinate, end: Coordinate) -> Double {
     let lat1 = degreeToRadian(start.latitude)
     let lon1 = degreeToRadian(start.longitude)
     let lat2 = degreeToRadian(end.latitude)
@@ -42,11 +43,7 @@ public final class Calculation {
     let dLon = lon2 - lon1
     let y = sin(dLon) * cos(lat2)
     let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
-    return atan2(y, x)
-  }
-  
-  public static func bearingDegree(start: Coordinate, end: Coordinate) -> Double {
-    let radian = bearingRadian(start: start, end: end)
+    let radian = atan2(y, x)
     var degree = radianToDegree(radian)
     if degree < 0 { degree += 360 }
     return degree

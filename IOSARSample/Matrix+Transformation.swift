@@ -68,9 +68,22 @@ public struct MatrixTransformer {
     return self.rotateZ(radian: Calculation.degreeToRadian(degree))
   }
   
-  public func transform(_ matrix: simd_float4x4) -> simd_float4x4 {
-    let transformer = self.transformers.reduce(matrix_identity_float4x4, simd_mul)
-    return simd_mul(matrix, transformer)
+  public func scale<BX, BY, BZ>(x: BX, y: BY, z: BZ) -> MatrixTransformer where
+    BX: BinaryFloatingPoint, BY: BinaryFloatingPoint, BZ: BinaryFloatingPoint
+  {
+    var identity = matrix_identity_float4x4
+    identity.columns.0.x = Float(x)
+    identity.columns.1.y = Float(y)
+    identity.columns.2.z = Float(z)
+    return self.appending(transformer: identity)
+  }
+  
+  public func transformer() -> simd_float4x4 {
+    return self.transformers.reversed().reduce(matrix_identity_float4x4, simd_mul)
+  }
+  
+  public func transform(_ vector: simd_float4) -> simd_float4 {
+    return simd_mul(self.transformer(), vector)
   }
   
   private func rotate(_ matrix: GLKMatrix4) -> MatrixTransformer {
