@@ -7,18 +7,24 @@
 //
 
 import ARKit
+import CoreLocation
 import UIKit
 
 public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   
   public lazy var settings: Settings = Settings()
+  private lazy var locationManager: LocationManager = LocationManager()
   private lazy var lastCallTime: TimeInterval = 0
   private lazy var lock: NSLock = NSLock()
   
   override public func viewDidLoad() {
     super.viewDidLoad()    
     self.sceneView.session.delegate = self
+
+    self.locationManager.register(locationCallback: {[weak self] in
+      self?.onLocationChange($0)
+    })
   }
   
   override public func viewWillAppear(_ animated: Bool) {
@@ -31,6 +37,8 @@ public final class ARViewController: UIViewController {
     super.viewWillDisappear(animated)
     self.sceneView.session.pause()
   }
+  
+  private func onLocationChange(_ location: CLLocation) {}
 }
 
 // MARK: - ARSessionDelegate
