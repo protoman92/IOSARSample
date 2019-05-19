@@ -13,6 +13,7 @@
 		D384EF70228C97FE00DE6925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D384EF6F228C97FE00DE6925 /* Assets.xcassets */; };
 		D384EF73228C97FE00DE6925 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D384EF71228C97FE00DE6925 /* LaunchScreen.storyboard */; };
 		EE5164012290828800CDE4A2 /* MatrixTransformerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5164002290828800CDE4A2 /* MatrixTransformerTest.swift */; };
+		EE59035922910F3300561120 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE59035822910F3300561120 /* Constants.swift */; };
 		EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E5F228FA38600330ED2 /* LocationManager.swift */; };
 		EE5B5E62228FA86200330ED2 /* Matrix+Transformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */; };
 		EE5B5E64228FC75000330ED2 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E63228FC75000330ED2 /* Calculation.swift */; };
@@ -47,6 +48,7 @@
 		EE5163F62290827300CDE4A2 /* IOSARSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSARSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5163FA2290827300CDE4A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE5164002290828800CDE4A2 /* MatrixTransformerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixTransformerTest.swift; sourceTree = "<group>"; };
+		EE59035822910F3300561120 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EE5B5E5F228FA38600330ED2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Matrix+Transformation.swift"; sourceTree = "<group>"; };
 		EE5B5E63228FC75000330ED2 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				D384EF68228C97FC00DE6925 /* AppDelegate.swift */,
 				D384EF6A228C97FC00DE6925 /* ARViewController.swift */,
 				EE5B5E63228FC75000330ED2 /* Calculation.swift */,
+				EE59035822910F3300561120 /* Constants.swift */,
 				EE5B5E65229035FC00330ED2 /* CoordinateSimulator.swift */,
 				EE646ECE228F2CC400305FDE /* Data.swift */,
 				EE5B5E5F228FA38600330ED2 /* LocationManager.swift */,
@@ -274,6 +277,7 @@
 				EE646ECF228F2CC400305FDE /* Data.swift in Sources */,
 				EE5B5E66229035FC00330ED2 /* CoordinateSimulator.swift in Sources */,
 				EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */,
+				EE59035922910F3300561120 /* Constants.swift in Sources */,
 				EE646EC7228EFA4F00305FDE /* UIBezierPath+Extension.swift in Sources */,
 				EE646ECC228F2ACA00305FDE /* SettingViewController.swift in Sources */,
 				EE646ECD228F2C3F00305FDE /* ARViewController.swift in Sources */,

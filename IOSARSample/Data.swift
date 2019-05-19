@@ -46,6 +46,10 @@ public struct Coordinate {
       .adding(latitude: coordinate.latitude)
       .adding(longitude: coordinate.longitude)
   }
+  
+  public func toLocation() -> CLLocation {
+    return CLLocation(latitude: self.latitude, longitude: self.longitude)
+  }
 }
 
 public struct Settings {

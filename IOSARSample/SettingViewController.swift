@@ -20,7 +20,7 @@ public final class SettingViewController: UIViewController {
   @IBOutlet private weak var updateIntervalTF: UITextField!
   @IBOutlet private weak var infoTV: UITextView!
   
-  private var coordinateOffset = Coordinate(offset: -0.0001) {
+  private var coordinateOffset = Coordinate(latitude: -0.0001, longitude: -0.02) {
     didSet { self.coordinateOffsetChanged() }
   }
   
@@ -92,7 +92,7 @@ public final class SettingViewController: UIViewController {
     let infoText = """
       Target latitude: \(end.latitude)
       Target longitude: \(end.longitude)
-      Distance in meter: \(Calculation.haversineM(start: start, end: end))
+      Distance in meter: \(start.toLocation().distance(from: end.toLocation()))
       Bearing in degree: \(Calculation.bearingDegree(start: start, end: end))
     """
     

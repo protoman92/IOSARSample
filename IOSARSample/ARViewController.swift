@@ -62,25 +62,21 @@ public final class ARViewController: UIViewController {
     self.showVisual(session, frame, location, coordinate)
   }
   
-  private var shown: Bool = false
-  
   private func showVisual(_ session: ARSession,
                           _ frame: ARFrame,
                           _ currentLocation: CLLocation,
                           _ targetCoordinate: Coordinate) {
     self.lock.lock()
     defer { self.lock.unlock() }
-    if shown { return }
-    self.shown = true
     self.lastAnchor.map(session.remove)
     let start = Coordinate(location: currentLocation)
     let end = targetCoordinate
-    let distance = Calculation.haversineM(start: start, end: end)
-    
+    let distance = currentLocation.distance(from: targetCoordinate.toLocation())
+    let optimalDistance = min(distance, Constants.MAX_AR_DISTANCE_IN_METER)
+  
     let transform = MatrixTransformer()
-      .appending(transformer: frame.camera.transform)
-      .translate(x: 0, y: 0, z: -distance / 10)
       .rotateAroundY(radian: -Calculation.bearingRadian(start: start, end: end))
+      .translate(x: 0, y: 0, z: -optimalDistance)
       .transformer()
     
     let anchor = ARAnchor(transform: transform)
