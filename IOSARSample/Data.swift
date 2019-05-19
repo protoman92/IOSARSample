@@ -53,41 +53,55 @@ public struct Coordinate {
 }
 
 public struct Settings {
-  public private(set) var coordinate: Coordinate
+  public private(set) var targetCoordinate: Coordinate
   public private(set) var updateInterval: TimeInterval
+  public private(set) var visualizeOnce: Bool
   
-  public init(coordinate: Coordinate, updateInterval: TimeInterval) {
-    self.coordinate = coordinate
+  public init(targetCoordinate: Coordinate,
+              updateInterval: TimeInterval,
+              visualizeOnce: Bool) {
+    self.targetCoordinate = targetCoordinate
     self.updateInterval = updateInterval
+    self.visualizeOnce = visualizeOnce
   }
   
   public init() {
-    self.init(coordinate: Coordinate(latitude: 0, longitude: 0),
-              updateInterval: 0)
+    self.init(targetCoordinate: Coordinate(latitude: 0, longitude: 0),
+              updateInterval: 0,
+              visualizeOnce: false)
   }
   
   private init(_ settings: Settings) {
-    self.init(coordinate: settings.coordinate,
-              updateInterval: settings.updateInterval)
+    self.init(targetCoordinate: settings.targetCoordinate,
+              updateInterval: settings.updateInterval,
+              visualizeOnce: settings.visualizeOnce)
   }
   
-  public func with(coordinate: Coordinate) -> Settings {
+  public func with(targetCoordinate: Coordinate) -> Settings {
     var copy = Settings(self)
-    copy.coordinate = coordinate
+    copy.targetCoordinate = targetCoordinate
     return copy
   }
   
-  public func with(latitude: Double) -> Settings {
-    return self.with(coordinate: self.coordinate.with(latitude: latitude))
+  public func with(targetLatitude: Double) -> Settings {
+    let targetCoordinate = self.targetCoordinate.with(latitude: targetLatitude)
+    return self.with(targetCoordinate: targetCoordinate)
   }
   
-  public func with(longitude: Double) -> Settings {
-    return self.with(coordinate: self.coordinate.with(longitude: longitude))
+  public func with(targetLongitude: Double) -> Settings {
+    let targetCoordinate = self.targetCoordinate.with(longitude: targetLongitude)
+    return self.with(targetCoordinate: targetCoordinate)
   }
   
   public func with(updateInterval: TimeInterval) -> Settings {
     var copy = Settings(self)
     copy.updateInterval = updateInterval
+    return copy
+  }
+  
+  public func should(visualizeOnce: Bool) -> Settings {
+    var copy = Settings(self)
+    copy.visualizeOnce = visualizeOnce
     return copy
   }
 }

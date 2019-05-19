@@ -18,6 +18,7 @@ public final class SettingViewController: UIViewController {
   @IBOutlet private weak var latitudeTF: UITextField!
   @IBOutlet private weak var longitudeTF: UITextField!
   @IBOutlet private weak var updateIntervalTF: UITextField!
+  @IBOutlet private weak var visualizeOnceSw: UISwitch!
   @IBOutlet private weak var infoTV: UITextView!
   
   private var coordinateOffset = Coordinate(latitude: -0.0001, longitude: -0.02) {
@@ -25,6 +26,7 @@ public final class SettingViewController: UIViewController {
   }
   
   private var updateInterval: TimeInterval = 1000
+  private var visualizeOnce: Bool = false
   
   private var currentCoordinate: Coordinate {
     let currentLocation = LocationManager.instance.lastLocation!
@@ -43,18 +45,6 @@ public final class SettingViewController: UIViewController {
       style: .done,
       target: self,
       action: #selector(self.visualize))
-
-    self.latitudeTF.addTarget(
-      self, action: #selector(self.latitudeOffsetChanged),
-      for: .editingChanged)
-
-    self.longitudeTF.addTarget(
-      self, action: #selector(self.longitudeOffsetChanged),
-      for: .editingChanged)
-    
-    self.updateIntervalTF.addTarget(
-      self, action: #selector(self.updateIntervalChanged),
-      for: .editingChanged)
     
     self.latitudeTF.text = String(describing: coordinateOffset.latitude)
     self.longitudeTF.text = String(describing: coordinateOffset.longitude)
@@ -74,11 +64,13 @@ public final class SettingViewController: UIViewController {
       let coordinate = Coordinate(location: currentLocation)
         .adding(coordinate: self.coordinateOffset)
       
-      let settings = Settings(coordinate: coordinate,
-                              updateInterval: self.updateInterval)
+      let settings = Settings(targetCoordinate: coordinate,
+                              updateInterval: self.updateInterval,
+                              visualizeOnce: self.visualizeOnce)
       
       let simulator = CoordinateSimulator(settings: settings)
       arController.simulator = simulator
+      arController.settings = settings
       
     default:
       fatalError("Unexpeced segue to \(segue.identifier ?? "")")
@@ -99,20 +91,24 @@ public final class SettingViewController: UIViewController {
     self.infoTV.text = infoText
   }
   
-  @objc func latitudeOffsetChanged(_ sender: UITextField) {
+  @IBAction func latitudeOffsetChanged(_ sender: UITextField) {
     sender.text.flatMap(Double.init).map({
       self.coordinateOffset = self.coordinateOffset.with(latitude: $0)
     })
   }
   
-  @objc func longitudeOffsetChanged(_ sender: UITextField) {
+  @IBAction func longitudeOffsetChanged(_ sender: UITextField) {
     sender.text.flatMap(Double.init).map({
       self.coordinateOffset = self.coordinateOffset.with(longitude: $0)
     })
   }
   
-  @objc func updateIntervalChanged(_ sender: UITextField) {
+  @IBAction func updateIntervalChanged(_ sender: UITextField) {
     sender.text.flatMap(TimeInterval.init).map({self.updateInterval = $0})
+  }
+  
+  @IBAction func visualizeOnceChanged(_ sender: UISwitch) {
+    self.visualizeOnce = sender.isOn
   }
   
   @objc func visualize() {

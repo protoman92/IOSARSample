@@ -14,8 +14,10 @@ public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   
   public var simulator: CoordinateSimulator!
+  public var settings: Settings!
   private let lock = NSLock()
   private var lastAnchor: ARAnchor?
+  private var hasShownOnce: Bool = false
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -46,7 +48,6 @@ public final class ARViewController: UIViewController {
   private func onLocationChange(_ location: CLLocation) {
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
-    print("Visualizing based on current location")
     self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
   }
   
@@ -58,7 +59,6 @@ public final class ARViewController: UIViewController {
       let location = LocationManager.instance.lastLocation
       else { return }
     
-    print("Visualizing based on target coordinate")
     self.showVisual(session, frame, location, coordinate)
   }
   
@@ -68,6 +68,8 @@ public final class ARViewController: UIViewController {
                           _ targetCoordinate: Coordinate) {
     self.lock.lock()
     defer { self.lock.unlock() }
+    if self.settings.visualizeOnce && self.hasShownOnce { return }
+    self.hasShownOnce = true
     self.lastAnchor.map(session.remove)
     let start = Coordinate(location: currentLocation)
     let end = targetCoordinate
@@ -75,8 +77,8 @@ public final class ARViewController: UIViewController {
     let optimalDistance = min(distance, Constants.MAX_AR_DISTANCE_IN_METER)
   
     let transform = MatrixTransformer()
-      .rotateAroundY(radian: -Calculation.bearingRadian(start: start, end: end))
       .translate(x: 0, y: 0, z: -optimalDistance)
+      .rotateAroundY(radian: -Calculation.bearingRadian(start: start, end: end))
       .transformer()
     
     let anchor = ARAnchor(transform: transform)

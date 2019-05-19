@@ -21,7 +21,7 @@ public final class CoordinateSimulator {
   }
   
   public init(settings: Settings) {
-    self.coordinate = settings.coordinate
+    self.coordinate = settings.targetCoordinate
     let updateInterval = settings.updateInterval / 1000
     self.timer = nil
 
