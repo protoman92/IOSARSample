@@ -80,7 +80,7 @@ public final class ARViewController: UIViewController {
     let transform = MatrixTransformer()
       .appending(transformer: frame.camera.transform)
       .translate(x: 0, y: 0, z: -distance / 10)
-      .rotateAroundY(degree: -Calculation.bearingDegree(start: start, end: end))
+      .rotateAroundY(radian: -Calculation.bearingRadian(start: start, end: end))
       .transformer()
     
     let anchor = ARAnchor(transform: transform)
