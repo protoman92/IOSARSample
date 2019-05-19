@@ -20,7 +20,7 @@ public final class SettingViewController: UIViewController {
   @IBOutlet private weak var updateIntervalTF: UITextField!
   @IBOutlet private weak var infoTV: UITextView!
   
-  private var coordinateOffset = Coordinate(offset: 0.0001) {
+  private var coordinateOffset = Coordinate(offset: -0.0001) {
     didSet { self.coordinateOffsetChanged() }
   }
   

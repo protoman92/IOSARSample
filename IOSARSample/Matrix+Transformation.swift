@@ -41,31 +41,43 @@ public struct MatrixTransformer {
     return self.appending(transformer: identity)
   }
   
-  public func rotateX<B>(radian: B) -> MatrixTransformer where B: BinaryFloatingPoint {
+  public func rotateAroundX<B>(radian: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
     let identity = GLKMatrix4RotateX(GLKMatrix4Identity, Float(radian))
     return self.rotate(identity)
   }
   
-  public func rotateX<B>(degree: B) -> MatrixTransformer where B: BinaryFloatingPoint {
-    return self.rotateX(radian: Calculation.degreeToRadian(degree))
+  public func rotateAroundX<B>(degree: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
+    return self.rotateAroundX(radian: Calculation.degreeToRadian(degree))
   }
   
-  public func rotateY<B>(radian: B) -> MatrixTransformer where B: BinaryFloatingPoint {
+  public func rotateAroundY<B>(radian: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
     let identity = GLKMatrix4RotateY(GLKMatrix4Identity, Float(radian))
     return self.rotate(identity)
   }
   
-  public func rotateY<B>(degree: B) -> MatrixTransformer where B: BinaryFloatingPoint {
-    return self.rotateY(radian: Calculation.degreeToRadian(degree))
+  public func rotateAroundY<B>(degree: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
+    return self.rotateAroundY(radian: Calculation.degreeToRadian(degree))
   }
   
-  public func rotateZ<B>(radian: B) -> MatrixTransformer where B: BinaryFloatingPoint {
+  public func rotateAroundZ<B>(radian: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
     let identity = GLKMatrix4RotateZ(GLKMatrix4Identity, Float(radian))
     return self.rotate(identity)
   }
   
-  public func rotateZ<B>(degree: B) -> MatrixTransformer where B: BinaryFloatingPoint {
-    return self.rotateZ(radian: Calculation.degreeToRadian(degree))
+  public func rotateAroundZ<B>(degree: B) -> MatrixTransformer where
+    B: BinaryFloatingPoint
+  {
+    return self.rotateAroundZ(radian: Calculation.degreeToRadian(degree))
   }
   
   public func scale<BX, BY, BZ>(x: BX, y: BY, z: BZ) -> MatrixTransformer where
