@@ -6,6 +6,7 @@
 //  Copyright © 2019 swiften. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 
 fileprivate extension Coordinate {
@@ -22,20 +23,11 @@ public final class SettingViewController: UIViewController {
   @IBOutlet private weak var infoTV: UITextView!
   
   private var coordinateOffset = Coordinate(latitude: -0.0001, longitude: -0.02) {
-    didSet { self.coordinateOffsetChanged() }
+    didSet { self.updateCurrentSettingInfo(nil) }
   }
   
   private var updateInterval: TimeInterval = 1000
   private var visualizeOnce: Bool = false
-  
-  private var currentCoordinate: Coordinate {
-    let currentLocation = LocationManager.instance.lastLocation!
-    return Coordinate(location: currentLocation)
-  }
-  
-  private var targetCoordinate: Coordinate {
-    return self.currentCoordinate.adding(coordinate: self.coordinateOffset)
-  }
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -49,11 +41,15 @@ public final class SettingViewController: UIViewController {
     self.latitudeTF.text = String(describing: coordinateOffset.latitude)
     self.longitudeTF.text = String(describing: coordinateOffset.longitude)
     self.updateIntervalTF.text = String(describing: self.updateInterval)
+    
+    LocationManager.instance.on(locationChange: {[weak self] in
+      self?.onLocationChanged($0)
+    })
   }
   
   override public func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    self.coordinateOffsetChanged()
+    self.updateCurrentSettingInfo(nil)
   }
   
   override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,9 +73,9 @@ public final class SettingViewController: UIViewController {
     }
   }
   
-  private func coordinateOffsetChanged() {
-    let start = self.currentCoordinate
-    let end = self.targetCoordinate
+  private func updateCurrentSettingInfo(_ location: CLLocation?) {
+    let start = Coordinate(location: location ?? LocationManager.instance.lastLocation!)
+    let end = self.targetCoordinate(start)
     
     let infoText = """
       Target latitude: \(end.latitude)
@@ -113,5 +109,13 @@ public final class SettingViewController: UIViewController {
   
   @objc func visualize() {
     self.performSegue(withIdentifier: "visualize", sender: nil)
+  }
+  
+  private func onLocationChanged(_ location: CLLocation) {
+    self.updateCurrentSettingInfo(location)
+  }
+  
+  private func targetCoordinate(_ currentCoordinate: Coordinate) -> Coordinate {
+    return currentCoordinate.adding(coordinate: self.coordinateOffset)
   }
 }
