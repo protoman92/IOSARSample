@@ -21,7 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       fatalError()
     }
     
-    let store = applyMiddlewares([])(SimpleStore.create(AppState(), AppReducer.reduce))
+    let oneMapClient = OneMapClient(urlSession: URLSession.shared)
+    
+    let store = applyMiddlewares([
+      SagaMiddleware(effects: [
+        AppSaga.searchDestination(oneMapClient: oneMapClient)
+        ]).middleware
+      ])(SimpleStore.create(AppState(), AppReducer.reduce))
+    
     let injector = PropInjector(store: store)
     topController.injector = injector
     return true

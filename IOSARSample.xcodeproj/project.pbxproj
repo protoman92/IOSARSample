@@ -14,6 +14,7 @@
 		D384EF73228C97FE00DE6925 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D384EF71228C97FE00DE6925 /* LaunchScreen.storyboard */; };
 		EE09589D22AEB59300D01960 /* AppRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09589C22AEB59300D01960 /* AppRedux.swift */; };
 		EE09589F22AEB88A00D01960 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE09589E22AEB88A00D01960 /* NavigationController.swift */; };
+		EE0958A122AEBAAC00D01960 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0958A022AEBAAC00D01960 /* API.swift */; };
 		EE5164012290828800CDE4A2 /* MatrixTransformerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5164002290828800CDE4A2 /* MatrixTransformerTest.swift */; };
 		EE59035922910F3300561120 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE59035822910F3300561120 /* Constants.swift */; };
 		EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E5F228FA38600330ED2 /* LocationManager.swift */; };
@@ -49,6 +50,7 @@
 		EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
 		EE09589C22AEB59300D01960 /* AppRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRedux.swift; sourceTree = "<group>"; };
 		EE09589E22AEB88A00D01960 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		EE0958A022AEBAAC00D01960 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		EE5163F62290827300CDE4A2 /* IOSARSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSARSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5163FA2290827300CDE4A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE5164002290828800CDE4A2 /* MatrixTransformerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixTransformerTest.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				D384EF74228C97FE00DE6925 /* Info.plist */,
+				EE0958A022AEBAAC00D01960 /* API.swift */,
 				D384EF68228C97FC00DE6925 /* AppDelegate.swift */,
 				EE09589C22AEB59300D01960 /* AppRedux.swift */,
 				D384EF6A228C97FC00DE6925 /* ARViewController.swift */,
@@ -286,6 +289,7 @@
 				EE5B5E66229035FC00330ED2 /* CoordinateSimulator.swift in Sources */,
 				EE5B5E60228FA38600330ED2 /* LocationManager.swift in Sources */,
 				EE59035922910F3300561120 /* Constants.swift in Sources */,
+				EE0958A122AEBAAC00D01960 /* API.swift in Sources */,
 				EE646EC7228EFA4F00305FDE /* UIBezierPath+Extension.swift in Sources */,
 				EE646ECC228F2ACA00305FDE /* SettingViewController.swift in Sources */,
 				EE646ECD228F2C3F00305FDE /* ARViewController.swift in Sources */,

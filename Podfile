@@ -3,6 +3,8 @@
 
 target 'IOSARSample' do
   # Pods for IOSARSample
+  pod 'RxCocoa', '~> 4.0'
+  
   pod 'SwiftRedux',
   git: 'https://github.com/protoman92/SwiftRedux.git',
   subspecs: [

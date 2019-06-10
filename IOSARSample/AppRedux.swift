@@ -8,6 +8,10 @@
 
 import SwiftRedux
 
+public enum AppAction: ReduxActionType {
+  case destinationAddressQuery(String)
+}
+
 public struct AppState {
   public let origin: Coordinate
   public let destination: Coordinate
@@ -21,5 +25,20 @@ public struct AppState {
 public final class AppReducer {
   public static func reduce(state: AppState, action: ReduxActionType) -> AppState {
     return state
+  }
+}
+
+public final class AppSaga {
+  public static func searchDestination(oneMapClient: OneMapClient) -> SagaEffect<()> {
+    return SagaEffects.takeLatest(paramExtractor: { (action: AppAction) -> String? in
+      switch action {
+      case .destinationAddressQuery(let query): return query
+      }
+    }, effectCreator: { query in
+      return SagaEffects.await { input in
+        let result = oneMapClient.reverseGeocode(query: query)
+        print(result)
+      }
+    })
   }
 }
