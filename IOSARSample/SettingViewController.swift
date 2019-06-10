@@ -43,7 +43,15 @@ public final class SettingViewController: UIViewController {
   @objc func visualize() {}
   
   private func didSetProps(_ props: ReduxProps) {
+    let state = props.state
     
+    let infoText = """
+    Target address: \(state.destinationAddress)
+    Target latitude: \(state.destination.latitude)
+    Target longitude: \(state.destination.longitude)
+    """
+    
+    infoTV.text = infoText
   }
 }
 
@@ -53,7 +61,10 @@ extension SettingViewController: PropContainerType {
   
   public typealias OutProps = Void
   
-  public struct StateProps: Equatable {}
+  public struct StateProps: Equatable {
+    public let destination: Coordinate
+    public let destinationAddress: String
+  }
   
   public struct ActionProps {
     public let updateSearchAddressQuery: (String) -> Void
@@ -63,7 +74,10 @@ extension SettingViewController: PropContainerType {
 // MARK: - PropMapperType
 extension SettingViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
-    return StateProps()
+    return StateProps(
+      destination: state.destination,
+      destinationAddress: state.destinationAddress
+    )
   }
   
   public static func mapAction(dispatch: @escaping ReduxDispatcher,

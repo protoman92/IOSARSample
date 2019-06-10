@@ -13,8 +13,15 @@ import Foundation
 public final class OneMapClient {
   public struct ReverseGeocoded: Decodable {
     public struct Result: Decodable {
+      public let ADDRESS: String
       public let LATITUDE: String
       public let LONGITUDE: String
+      
+      public func toCoordinate() -> Coordinate? {
+        return Double(self.LATITUDE).zipWith(Double(self.LONGITUDE), {
+          return Coordinate(latitude: $0, longitude: $1)
+        })
+      }
     }
     
     public let found: Int
@@ -30,7 +37,7 @@ public final class OneMapClient {
     self.urlSession = urlSession
   }
   
-  public func reverseGeocode(query: String) -> Single<Any> {
+  public func reverseGeocode(query: String) -> Single<ReverseGeocoded> {
     let urlString = "https://developers.onemap.sg/commonapi/search"
     var components = URLComponents(string: urlString)!
     
