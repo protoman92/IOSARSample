@@ -22,5 +22,13 @@ public final class NavigationController: UINavigationController {
 extension NavigationController: UINavigationControllerDelegate {
   public func navigationController(_ navigationController: UINavigationController,
                                    willShow viewController: UIViewController,
-                                   animated: Bool) {}
+                                   animated: Bool) {
+    switch viewController {
+    case let vc as SettingViewController:
+      self.injector.injectProps(controller: vc, outProps: ())
+      
+    default:
+      fatalError()
+    }
+  }
 }

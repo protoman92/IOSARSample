@@ -11,9 +11,22 @@ import RxSwift
 import Foundation
 
 public final class OneMapClient {
+  public struct ReverseGeocoded: Decodable {
+    public struct Result: Decodable {
+      public let LATITUDE: String
+      public let LONGITUDE: String
+    }
+    
+    public let found: Int
+    public let pageNum: Int
+    public let results: [Result]
+  }
+  
+  private let jsonDecoder: JSONDecoder
   private let urlSession: URLSession
   
-  public init(urlSession: URLSession) {
+  public init(jsonDecoder: JSONDecoder, urlSession: URLSession) {
+    self.jsonDecoder = jsonDecoder
     self.urlSession = urlSession
   }
   
@@ -28,6 +41,11 @@ public final class OneMapClient {
       URLQueryItem(name: "pageNum", value: "1")
     ]
     
-    return urlSession.rx.json(url: components.url!).asSingle()
+    let jsonDecoder = self.jsonDecoder
+    
+    return urlSession.rx.json(url: components.url!)
+      .map({try JSONSerialization.data(withJSONObject: $0, options: .prettyPrinted)})
+      .map({try jsonDecoder.decode(ReverseGeocoded.self, from: $0)})
+      .asSingle()
   }
 }

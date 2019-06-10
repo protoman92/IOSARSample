@@ -36,9 +36,16 @@ public final class AppSaga {
       }
     }, effectCreator: { query in
       return SagaEffects.await { input in
-        let result = oneMapClient.reverseGeocode(query: query)
-        print(result)
+        do {
+          let result = try SagaEffects
+            .call(oneMapClient.reverseGeocode(query: query))
+            .await(input)
+          
+          print(result)
+        } catch {
+          print(error)
+        }
       }
-    })
+    }, options: TakeOptions.builder().with(debounce: 1).build())
   }
 }

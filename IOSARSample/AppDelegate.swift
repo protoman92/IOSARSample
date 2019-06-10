@@ -21,7 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       fatalError()
     }
     
-    let oneMapClient = OneMapClient(urlSession: URLSession.shared)
+    let jsonDecoder = JSONDecoder()
+
+    let oneMapClient = OneMapClient(jsonDecoder: jsonDecoder,
+                                    urlSession: URLSession.shared)
     
     let store = applyMiddlewares([
       SagaMiddleware(effects: [
