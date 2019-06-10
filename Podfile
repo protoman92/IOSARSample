@@ -2,9 +2,16 @@
 # platform :ios, '9.0'
 
 target 'IOSARSample' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
   # Pods for IOSARSample
-
+  pod 'SwiftRedux',
+  git: 'https://github.com/protoman92/SwiftRedux.git',
+  subspecs: [
+    'Core',
+    'SimpleStore',
+    'UI',
+    'Middleware',
+    'Middleware+Router',
+    'Middleware+Saga'
+  ]
+  
 end

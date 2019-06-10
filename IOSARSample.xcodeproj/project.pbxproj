@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B09B63B3B6848077C586A0F4 /* Pods_IOSARSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */; };
+		24C570D2AFCA38A8974116F1 /* libPods-IOSARSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC9CF8EF43816EFC9BAEDBC /* libPods-IOSARSample.a */; };
 		D384EF69228C97FC00DE6925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384EF68228C97FC00DE6925 /* AppDelegate.swift */; };
 		D384EF6E228C97FC00DE6925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D384EF6C228C97FC00DE6925 /* Main.storyboard */; };
 		D384EF70228C97FE00DE6925 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D384EF6F228C97FE00DE6925 /* Assets.xcassets */; };
@@ -35,7 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSARSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		508C72559B8C8BE92B20ADC1 /* Pods-IOSARSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.release.xcconfig"; sourceTree = "<group>"; };
 		D384EF65228C97FC00DE6925 /* IOSARSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSARSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D384EF68228C97FC00DE6925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +43,7 @@
 		D384EF6F228C97FE00DE6925 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D384EF72228C97FE00DE6925 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D384EF74228C97FE00DE6925 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DFC9CF8EF43816EFC9BAEDBC /* libPods-IOSARSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-IOSARSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2649D175977FE0C43460A5 /* Pods-IOSARSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSARSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSARSample/Pods-IOSARSample.debug.xcconfig"; sourceTree = "<group>"; };
 		EE5163F62290827300CDE4A2 /* IOSARSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSARSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5163FA2290827300CDE4A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B09B63B3B6848077C586A0F4 /* Pods_IOSARSample.framework in Frameworks */,
+				24C570D2AFCA38A8974116F1 /* libPods-IOSARSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 		729558723344BAB6FCB1C8DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1C7858247DFB131AD6D65369 /* Pods_IOSARSample.framework */,
+				DFC9CF8EF43816EFC9BAEDBC /* libPods-IOSARSample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
