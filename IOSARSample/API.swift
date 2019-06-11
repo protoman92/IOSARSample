@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import Foundation
 
-public final class OneMapClient {
+public final class GeoClient {
   public struct ReverseGeocoded: Decodable {
     public struct Result: Decodable {
       public let ADDRESS: String

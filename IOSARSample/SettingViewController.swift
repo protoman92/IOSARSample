@@ -46,9 +46,11 @@ public final class SettingViewController: UIViewController {
     let state = props.state
     
     let infoText = """
-    Target address: \(state.destinationAddress)
+    Current latitude: \(state.origin.latitude)
+    Curreng longitude: \(state.origin.longitude)
     Target latitude: \(state.destination.latitude)
     Target longitude: \(state.destination.longitude)
+    Target address: \(state.destinationAddress)
     """
     
     infoTV.text = infoText
@@ -64,6 +66,7 @@ extension SettingViewController: PropContainerType {
   public struct StateProps: Equatable {
     public let destination: Coordinate
     public let destinationAddress: String
+    public let origin: Coordinate
   }
   
   public struct ActionProps {
@@ -76,7 +79,8 @@ extension SettingViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
     return StateProps(
       destination: state.destination,
-      destinationAddress: state.destinationAddress
+      destinationAddress: state.destinationAddress,
+      origin: state.origin
     )
   }
   

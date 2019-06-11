@@ -22,13 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     let jsonDecoder = JSONDecoder()
-
-    let oneMapClient = OneMapClient(jsonDecoder: jsonDecoder,
-                                    urlSession: URLSession.shared)
+    let geoClient = GeoClient(jsonDecoder: jsonDecoder, urlSession: URLSession.shared)
     
     let store = applyMiddlewares([
       SagaMiddleware(effects: [
-        AppSaga.searchDestination(oneMapClient: oneMapClient)
+        AppSaga.searchDestination(geoClient: geoClient),
+        AppSaga.streamLocation(lcManager: LocationManager.instance)
         ]).middleware
       ])(SimpleStore.create(AppState(), AppReducer.reduce))
     
