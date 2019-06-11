@@ -40,7 +40,9 @@ public final class SettingViewController: UIViewController {
     sender.text.map({self.reduxProps?.action.updateSearchAddressQuery($0)})
   }
   
-  @objc func visualize() {}
+  @objc func visualize() {
+    self.performSegue(withIdentifier: "visualize", sender: nil)
+  }
   
   private func didSetProps(_ props: ReduxProps) {
     let state = props.state

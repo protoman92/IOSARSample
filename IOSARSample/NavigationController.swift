@@ -27,6 +27,9 @@ extension NavigationController: UINavigationControllerDelegate {
     case let vc as SettingViewController:
       self.injector.injectProps(controller: vc, outProps: ())
       
+    case let vc as ARViewController:
+      self.injector.injectProps(controller: vc, outProps: ())
+
     default:
       fatalError()
     }

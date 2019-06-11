@@ -8,29 +8,25 @@
 
 import ARKit
 import CoreLocation
+import SwiftRedux
 import UIKit
 
 public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   
-  public var simulator: CoordinateSimulator!
-  public var settings: Settings!
+  public var staticProps: StaticProps!
+  
+  public var reduxProps: ReduxProps? {
+    didSet { self.reduxProps.map(self.didSetProps) }
+  }
+  
   private let lock = NSLock()
   private var lastAnchor: ARAnchor?
-  private var hasShownOnce: Bool = false
   
   override public func viewDidLoad() {
     super.viewDidLoad()
     self.sceneView.delegate = self
     self.sceneView.session.delegate = self
-
-    LocationManager.instance.on(locationChange: {[weak self] in
-      self?.onLocationChange($0)
-    })
-    
-    self.simulator.on(coordinateChanged: {[weak self] in
-      self?.onTargetCoordinateChange($0)
-    })
   }
   
   override public func viewWillAppear(_ animated: Bool) {
@@ -45,35 +41,14 @@ public final class ARViewController: UIViewController {
     self.sceneView.session.pause()
   }
   
-  private func onLocationChange(_ location: CLLocation) {
-    let session = self.sceneView.session
-    guard let frame = session.currentFrame else { return }
-    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
-  }
-  
-  private func onTargetCoordinateChange(_ coordinate: Coordinate) {
-    let session = self.sceneView.session
-
-    guard
-      let frame = session.currentFrame,
-      let location = LocationManager.instance.lastLocation
-      else { return }
-    
-    self.showVisual(session, frame, location, coordinate)
-  }
-  
   private func showVisual(_ session: ARSession,
                           _ frame: ARFrame,
-                          _ currentLocation: CLLocation,
-                          _ targetCoordinate: Coordinate) {
+                          _ start: Coordinate,
+                          _ end: Coordinate) {
     self.lock.lock()
     defer { self.lock.unlock() }
-    if self.settings.visualizeOnce && self.hasShownOnce { return }
-    self.hasShownOnce = true
     self.lastAnchor.map(session.remove)
-    let start = Coordinate(location: currentLocation)
-    let end = targetCoordinate
-    let distance = currentLocation.distance(from: targetCoordinate.toLocation())
+    let distance = start.toLocation().distance(from: end.toLocation())
     let optimalDistance = min(distance, Constants.MAX_AR_DISTANCE_IN_METER)
   
     let transform = MatrixTransformer()
@@ -84,6 +59,40 @@ public final class ARViewController: UIViewController {
     let anchor = ARAnchor(transform: transform)
     self.lastAnchor = anchor
     self.sceneView.session.add(anchor: anchor)
+  }
+  
+  private func didSetProps(_ props: ReduxProps) {
+    let session = self.sceneView.session
+    guard let frame = session.currentFrame else { return }
+    let origin = props.state.origin
+    let destination = props.state.destination
+    self.showVisual(session, frame, origin, destination)
+  }
+}
+
+// MARK: - PropContainerType
+extension ARViewController: PropContainerType {
+  public typealias GlobalState = AppState
+  public typealias OutProps = Void
+  
+  public struct StateProps: Equatable {
+    public let origin: Coordinate
+    public let destination: Coordinate
+  }
+  
+  public struct ActionProps {}
+}
+
+// MARK: - PropMapperType
+extension ARViewController: PropMapperType {
+  public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
+    return StateProps(origin: state.origin, destination: state.destination)
+  }
+  
+  public static func mapAction(dispatch: @escaping ReduxDispatcher,
+                               state: GlobalState,
+                               outProps: OutProps) -> ActionProps {
+    return ActionProps()
   }
 }
 
@@ -97,9 +106,4 @@ extension ARViewController: ARSCNViewDelegate {
 }
 
 // MARK: - ARSessionDelegate
-extension ARViewController: ARSessionDelegate {
-  public func session(_ session: ARSession, didUpdate frame: ARFrame) {
-//    guard let location = LocationManager.instance.lastLocation else { return }
-//    self.showVisual(session, frame, location, self.simulator.simulatedCoordinate)
-  }
-}
+extension ARViewController: ARSessionDelegate {}
