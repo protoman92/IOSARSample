@@ -63,8 +63,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oej-xJ-wDL">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search origin" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YCY-zJ-ZxD">
                                 <rect key="frame" x="16" y="80" width="343" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2JA-9f-Es3"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="originQueryChanged:" destination="q7L-qe-J9t" eventType="editingChanged" id="g58-aL-5jq"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Oej-xJ-wDL">
+                                <rect key="frame" x="16" y="136" width="343" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="cg5-Pb-W2L"/>
                                 </constraints>
@@ -72,11 +84,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="searchAddressQueryChanged:" destination="q7L-qe-J9t" eventType="editingChanged" id="7gI-tK-F6t"/>
+                                    <action selector="destinationQueryChanged:" destination="q7L-qe-J9t" eventType="editingChanged" id="7gI-tK-F6t"/>
                                 </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5p-0R-fVx">
-                                <rect key="frame" x="16" y="136" width="343" height="515"/>
+                                <rect key="frame" x="16" y="192" width="343" height="459"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -87,16 +99,20 @@
                             <constraint firstAttribute="trailing" secondItem="Oej-xJ-wDL" secondAttribute="trailing" constant="16" id="6xE-0K-suH"/>
                             <constraint firstItem="f5p-0R-fVx" firstAttribute="leading" secondItem="Nk7-Zd-1rG" secondAttribute="leading" constant="16" id="8Ao-IP-APn"/>
                             <constraint firstAttribute="trailing" secondItem="f5p-0R-fVx" secondAttribute="trailing" constant="16" id="9pc-74-Sea"/>
+                            <constraint firstItem="YCY-zJ-ZxD" firstAttribute="top" secondItem="dkU-bR-IbI" secondAttribute="top" constant="16" id="Bcw-W6-zIO"/>
                             <constraint firstItem="Oej-xJ-wDL" firstAttribute="leading" secondItem="Nk7-Zd-1rG" secondAttribute="leading" constant="16" id="G8m-NG-8Qb"/>
-                            <constraint firstItem="Oej-xJ-wDL" firstAttribute="top" secondItem="dkU-bR-IbI" secondAttribute="top" constant="16" id="Lpy-Ex-fVk"/>
+                            <constraint firstAttribute="trailing" secondItem="YCY-zJ-ZxD" secondAttribute="trailing" constant="16" id="bqh-RD-pzn"/>
+                            <constraint firstItem="YCY-zJ-ZxD" firstAttribute="leading" secondItem="Nk7-Zd-1rG" secondAttribute="leading" constant="16" id="gmJ-pP-skJ"/>
                             <constraint firstItem="dkU-bR-IbI" firstAttribute="bottom" secondItem="f5p-0R-fVx" secondAttribute="bottom" constant="16" id="hmW-kK-NqX"/>
+                            <constraint firstItem="Oej-xJ-wDL" firstAttribute="top" secondItem="YCY-zJ-ZxD" secondAttribute="bottom" constant="16" id="qkj-3R-Acl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dkU-bR-IbI"/>
                     </view>
                     <navigationItem key="navigationItem" id="RaK-FG-7oj"/>
                     <connections>
                         <outlet property="infoTV" destination="f5p-0R-fVx" id="nm0-vl-2kS"/>
-                        <outlet property="searchAddressTF" destination="Oej-xJ-wDL" id="CcU-1I-Hn8"/>
+                        <outlet property="searchDestinationTF" destination="Oej-xJ-wDL" id="CcU-1I-Hn8"/>
+                        <outlet property="searchOriginTF" destination="YCY-zJ-ZxD" id="XDo-fI-gIG"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="visualize" id="MWQ-wM-v0Z"/>
                     </connections>
                 </viewController>

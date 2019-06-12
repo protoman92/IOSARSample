@@ -10,21 +10,25 @@ import RxSwift
 import SwiftRedux
 
 public enum AppAction: ReduxActionType {
-  case destinationAddressQuery(String)
   case destination(Coordinate)
   case destinationAddress(String)
+  case destinationAddressQuery(String)
   case origin(Coordinate)
+  case originAddress(String)
+  case originAddressQuery(String)
 }
 
 public struct AppState {
   public fileprivate(set) var origin: Coordinate
+  public fileprivate(set) var originAddress: String
   public fileprivate(set) var destination: Coordinate
   public fileprivate(set) var destinationAddress: String
   
   public init() {
-    self.origin = Coordinate(latitude: 0, longitude: 0)
     self.destination = Coordinate(latitude: 0, longitude: 0)
     self.destinationAddress = ""
+    self.origin = Coordinate(latitude: 0, longitude: 0)
+    self.originAddress = ""
   }
 }
 
@@ -42,6 +46,9 @@ public final class AppReducer {
     case .some(.origin(let coordinate)):
       newState.origin = coordinate
       
+    case .some(.originAddress(let address)):
+      newState.originAddress = address
+      
     default:
       break
     }
@@ -51,6 +58,34 @@ public final class AppReducer {
 }
 
 public final class AppSaga {
+  public static func searchOrigin(geoClient: GeoClient) -> SagaEffect<()> {
+    return SagaEffects
+      .take({ (action: AppAction) -> String? in
+        switch action {
+        case .originAddressQuery(let query): return query
+        default: return nil
+        }
+      })
+      .debounce(bySeconds: 1)
+      .switchMap({ query in
+        return SagaEffects.await { input in
+          do {
+            let reversed = try SagaEffects
+              .call(geoClient.reverseGeocode(query: query))
+              .await(input)
+            
+            let result = try reversed.results.first.getOrThrow("")
+            let destination = try result.toCoordinate().getOrThrow("")
+            let address = result.ADDRESS
+            SagaEffects.put(AppAction.origin(destination)).await(input)
+            SagaEffects.put(AppAction.originAddress(address)).await(input)
+          } catch {
+            print(error)
+          }
+        }
+      })
+  }
+  
   public static func searchDestination(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
       .take({ (action: AppAction) -> String? in

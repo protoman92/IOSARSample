@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let store = applyMiddlewares([
       SagaMiddleware(effects: [
         AppSaga.searchDestination(geoClient: geoClient),
+        AppSaga.searchOrigin(geoClient: geoClient),
         AppSaga.streamLocation(lcManager: LocationManager.instance)
         ]).middleware
       ])(SimpleStore.create(AppState(), AppReducer.reduce))

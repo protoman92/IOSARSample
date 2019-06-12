@@ -6,18 +6,12 @@
 //  Copyright © 2019 swiften. All rights reserved.
 //
 
-import CoreLocation
 import SwiftRedux
 import UIKit
 
-fileprivate extension Coordinate {
-  init(offset: Double) {
-    self.init(latitude: offset, longitude: offset)
-  }
-}
-
 public final class SettingViewController: UIViewController {
-  @IBOutlet weak var searchAddressTF: UITextField!
+  @IBOutlet private weak var searchOriginTF: UITextField!
+  @IBOutlet private weak var searchDestinationTF: UITextField!
   @IBOutlet private weak var infoTV: UITextView!
   
   public var staticProps: StaticProps!
@@ -36,8 +30,12 @@ public final class SettingViewController: UIViewController {
       action: #selector(self.visualize))
   }
   
-  @IBAction func searchAddressQueryChanged(_ sender: UITextField) {
-    sender.text.map({self.reduxProps?.action.updateSearchAddressQuery($0)})
+  @IBAction func originQueryChanged(_ sender: UITextField) {
+    sender.text.map({self.reduxProps?.action.originQuery($0)})
+  }
+  
+  @IBAction func destinationQueryChanged(_ sender: UITextField) {
+    sender.text.map({self.reduxProps?.action.destinationQuery($0)})
   }
   
   @objc func visualize() {
@@ -48,11 +46,15 @@ public final class SettingViewController: UIViewController {
     let state = props.state
     
     let infoText = """
-    Current latitude: \(state.origin.latitude)
-    Curreng longitude: \(state.origin.longitude)
-    Target latitude: \(state.destination.latitude)
-    Target longitude: \(state.destination.longitude)
-    Target address: \(state.destinationAddress)
+    Origin latitude: \(state.origin.latitude)
+    Origin longitude: \(state.origin.longitude)
+    Origin address: \(state.originAddress)
+    
+    _________________________________________________
+    
+    Destination latitude: \(state.destination.latitude)
+    Destination longitude: \(state.destination.longitude)
+    Destination address: \(state.destinationAddress)
     """
     
     infoTV.text = infoText
@@ -69,10 +71,12 @@ extension SettingViewController: PropContainerType {
     public let destination: Coordinate
     public let destinationAddress: String
     public let origin: Coordinate
+    public let originAddress: String
   }
   
   public struct ActionProps {
-    public let updateSearchAddressQuery: (String) -> Void
+    public let destinationQuery: (String) -> Void
+    public let originQuery: (String) -> Void
   }
 }
 
@@ -82,7 +86,8 @@ extension SettingViewController: PropMapperType {
     return StateProps(
       destination: state.destination,
       destinationAddress: state.destinationAddress,
-      origin: state.origin
+      origin: state.origin,
+      originAddress: state.originAddress
     )
   }
   
@@ -90,7 +95,8 @@ extension SettingViewController: PropMapperType {
                                state: GlobalState,
                                outProps: OutProps) -> ActionProps {
     return ActionProps(
-      updateSearchAddressQuery: {dispatch(AppAction.destinationAddressQuery($0))}
+      destinationQuery: {dispatch(AppAction.destinationAddressQuery($0))},
+      originQuery: {dispatch(AppAction.originAddressQuery($0))}
     )
   }
 }
