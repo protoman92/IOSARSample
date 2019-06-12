@@ -10,25 +10,19 @@ import RxSwift
 import SwiftRedux
 
 public enum AppAction: ReduxActionType {
-  case destination(Coordinate)
-  case destinationAddress(String)
+  case destination(Place)
   case destinationAddressQuery(String)
-  case origin(Coordinate)
-  case originAddress(String)
+  case origin(Place)
   case originAddressQuery(String)
 }
 
 public struct AppState {
-  public fileprivate(set) var origin: Coordinate
-  public fileprivate(set) var originAddress: String
-  public fileprivate(set) var destination: Coordinate
-  public fileprivate(set) var destinationAddress: String
+  public fileprivate(set) var origin: Place
+  public fileprivate(set) var destination: Place
   
   public init() {
-    self.destination = Coordinate(latitude: 0, longitude: 0)
-    self.destinationAddress = ""
-    self.origin = Coordinate(latitude: 0, longitude: 0)
-    self.originAddress = ""
+    self.destination = Place(address: "", coordinate: .zero)
+    self.origin = Place(address: "", coordinate: .zero)
   }
 }
 
@@ -37,17 +31,11 @@ public final class AppReducer {
     var newState = state
     
     switch action as? AppAction {
-    case .some(.destination(let coordinate)):
-      newState.destination = coordinate
+    case .some(.destination(let place)):
+      newState.destination = place
       
-    case .some(.destinationAddress(let address)):
-      newState.destinationAddress = address
-      
-    case .some(.origin(let coordinate)):
-      newState.origin = coordinate
-      
-    case .some(.originAddress(let address)):
-      newState.originAddress = address
+    case .some(.origin(let place)):
+      newState.origin = place
       
     default:
       break
@@ -75,10 +63,10 @@ public final class AppSaga {
               .await(input)
             
             let result = try reversed.results.first.getOrThrow("")
-            let destination = try result.toCoordinate().getOrThrow("")
+            let origin = try result.toCoordinate().getOrThrow("")
             let address = result.ADDRESS
-            SagaEffects.put(AppAction.origin(destination)).await(input)
-            SagaEffects.put(AppAction.originAddress(address)).await(input)
+            let place = Place(address: address, coordinate: origin)
+            SagaEffects.put(AppAction.origin(place)).await(input)
           } catch {
             print(error)
           }
@@ -105,8 +93,8 @@ public final class AppSaga {
             let result = try reversed.results.first.getOrThrow("")
             let destination = try result.toCoordinate().getOrThrow("")
             let address = result.ADDRESS
-            SagaEffects.put(AppAction.destination(destination)).await(input)
-            SagaEffects.put(AppAction.destinationAddress(address)).await(input)
+            let place = Place(address: address, coordinate: destination)
+            SagaEffects.put(AppAction.destination(place)).await(input)
           } catch {
             print(error)
           }
@@ -127,7 +115,8 @@ public final class AppSaga {
         return SagaEffects.await { input in
           do {
             let result = try coordinate.getOrThrow()
-            SagaEffects.put(AppAction.origin(result)).await(input)
+            let place = Place(address: "", coordinate: result)
+            SagaEffects.put(AppAction.origin(place)).await(input)
           } catch {
             print(error)
           }

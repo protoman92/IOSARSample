@@ -46,15 +46,15 @@ public final class SettingViewController: UIViewController {
     let state = props.state
     
     let infoText = """
-    Origin latitude: \(state.origin.latitude)
-    Origin longitude: \(state.origin.longitude)
-    Origin address: \(state.originAddress)
+    Origin latitude: \(state.origin.coordinate.latitude)
+    Origin longitude: \(state.origin.coordinate.longitude)
+    Origin address: \(state.origin.address)
     
     _________________________________________________
     
-    Destination latitude: \(state.destination.latitude)
-    Destination longitude: \(state.destination.longitude)
-    Destination address: \(state.destinationAddress)
+    Destination latitude: \(state.destination.coordinate.latitude)
+    Destination longitude: \(state.destination.coordinate.longitude)
+    Destination address: \(state.destination.address)
     """
     
     infoTV.text = infoText
@@ -68,10 +68,8 @@ extension SettingViewController: PropContainerType {
   public typealias OutProps = Void
   
   public struct StateProps: Equatable {
-    public let destination: Coordinate
-    public let destinationAddress: String
-    public let origin: Coordinate
-    public let originAddress: String
+    public let destination: Place
+    public let origin: Place
   }
   
   public struct ActionProps {
@@ -83,12 +81,7 @@ extension SettingViewController: PropContainerType {
 // MARK: - PropMapperType
 extension SettingViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
-    return StateProps(
-      destination: state.destination,
-      destinationAddress: state.destinationAddress,
-      origin: state.origin,
-      originAddress: state.originAddress
-    )
+    return StateProps(destination: state.destination, origin: state.origin)
   }
   
   public static func mapAction(dispatch: @escaping ReduxDispatcher,

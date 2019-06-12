@@ -66,7 +66,7 @@ public final class ARViewController: UIViewController {
     guard let frame = session.currentFrame else { return }
     let origin = props.state.origin
     let destination = props.state.destination
-    self.showVisual(session, frame, origin, destination)
+    self.showVisual(session, frame, origin.coordinate, destination.coordinate)
   }
 }
 
@@ -76,8 +76,8 @@ extension ARViewController: PropContainerType {
   public typealias OutProps = Void
   
   public struct StateProps: Equatable {
-    public let origin: Coordinate
-    public let destination: Coordinate
+    public let origin: Place
+    public let destination: Place
   }
   
   public struct ActionProps {}
