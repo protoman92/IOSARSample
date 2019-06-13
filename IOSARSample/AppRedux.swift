@@ -14,6 +14,8 @@ public enum AppAction: ReduxActionType {
   case destinationAddressQuery(String)
   case origin(Place)
   case originAddressQuery(String)
+  
+  case triggerStartRouting
 }
 
 public struct AppState {
@@ -48,7 +50,7 @@ public final class AppReducer {
 public final class AppSaga {
   public static func searchOrigin(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .take({ (action: AppAction) -> String? in
+      .take({(action: AppAction) -> String? in
         switch action {
         case .originAddressQuery(let query): return query
         default: return nil
@@ -76,7 +78,7 @@ public final class AppSaga {
   
   public static func searchDestination(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .take({ (action: AppAction) -> String? in
+      .take({(action: AppAction) -> String? in
         switch action {
         case .destinationAddressQuery(let query): return query
         default: return nil
@@ -121,6 +123,37 @@ public final class AppSaga {
             print(error)
           }
         }
+      })
+  }
+  
+  public static func startRouting(geoClient: GeoClient) -> SagaEffect<()> {
+    return SagaEffects
+      .take({(action: AppAction) -> Void? in
+        switch action {
+        case .triggerStartRouting: return ()
+        default: return nil
+        }
+      })
+      .switchMap({_ in
+        return SagaEffects.await(with: {input in
+          let origin = SagaEffects
+            .select(fromType: AppState.self, {$0.origin.coordinate})
+            .await(input)
+          
+          let destination = SagaEffects
+            .select(fromType: AppState.self, {$0.destination.coordinate})
+            .await(input)
+          
+          do {
+            let instructions = try SagaEffects
+              .call(geoClient.route(start: origin, end: destination))
+              .await(input)
+            
+            print(instructions)
+          } catch {
+            print(error)
+          }
+        })
       })
   }
 }

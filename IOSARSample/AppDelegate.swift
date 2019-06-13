@@ -28,7 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       SagaMiddleware(effects: [
         AppSaga.searchDestination(geoClient: geoClient),
         AppSaga.searchOrigin(geoClient: geoClient),
-        AppSaga.streamLocation(lcManager: LocationManager.instance)
+        AppSaga.streamLocation(lcManager: LocationManager.instance),
+        AppSaga.startRouting(geoClient: geoClient),
         ]).middleware
       ])(SimpleStore.create(AppState(), AppReducer.reduce))
     

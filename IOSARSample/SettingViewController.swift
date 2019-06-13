@@ -43,6 +43,11 @@ public final class SettingViewController: UIViewController {
   }
   
   private func didSetProps(_ props: ReduxProps) {
+    if props.firstInstance {
+      self.searchDestinationTF.text = "Marina One"
+      props.action.destinationQuery("Marina One")
+    }
+    
     let state = props.state
     
     let infoText = """

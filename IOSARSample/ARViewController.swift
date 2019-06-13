@@ -17,7 +17,9 @@ public final class ARViewController: UIViewController {
   public var staticProps: StaticProps!
   
   public var reduxProps: ReduxProps? {
-    didSet { self.reduxProps.map(self.didSetProps) }
+    didSet {
+      self.reduxProps.map(self.didSetProps)
+    }
   }
   
   private let lock = NSLock()
@@ -62,6 +64,10 @@ public final class ARViewController: UIViewController {
   }
   
   private func didSetProps(_ props: ReduxProps) {
+    if props.firstInstance {
+      props.action.startRouting()
+    }
+    
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
     let origin = props.state.origin
@@ -80,7 +86,9 @@ extension ARViewController: PropContainerType {
     public let destination: Place
   }
   
-  public struct ActionProps {}
+  public struct ActionProps {
+    public let startRouting: () -> Void
+  }
 }
 
 // MARK: - PropMapperType
@@ -92,7 +100,9 @@ extension ARViewController: PropMapperType {
   public static func mapAction(dispatch: @escaping ReduxDispatcher,
                                state: GlobalState,
                                outProps: OutProps) -> ActionProps {
-    return ActionProps()
+    return ActionProps(
+      startRouting: {dispatch(AppAction.triggerStartRouting)}
+    )
   }
 }
 
