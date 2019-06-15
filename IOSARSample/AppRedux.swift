@@ -15,20 +15,34 @@ public enum AppAction: ReduxActionType {
   case origin(Place)
   case originAddressQuery(String)
   case routeInstructions([RouteInstruction])
+  case routeIndex(Int)
   case currentRoute(RouteInstruction)
   
   case triggerStartRouting
+  case triggerStopRouting
+  case triggerNextRoute
+  case triggerPrevRoute
 }
 
 public struct AppState {
   public fileprivate(set) var origin: Place
   public fileprivate(set) var destination: Place
-  public fileprivate(set) var currentRoute: RouteInstruction
+  public fileprivate(set) var routeInstructions: [RouteInstruction]
+  public fileprivate(set) var routeIndex: Int
   
   public init() {
     self.destination = Place(address: "", coordinate: .zero)
     self.origin = Place(address: "", coordinate: .zero)
-    self.currentRoute = RouteInstruction(street: "", coordinate: .zero)
+    self.routeInstructions = []
+    self.routeIndex = 0
+  }
+  
+  public func currentRoute() -> RouteInstruction? {
+    if self.routeIndex >= 0 && self.routeIndex < self.routeInstructions.count {
+      return self.routeInstructions[self.routeIndex]
+    }
+    
+    return nil
   }
 }
 
@@ -43,8 +57,11 @@ public final class AppReducer {
     case .some(.origin(let place)):
       newState.origin = place
       
-    case .some(.currentRoute(let instruction)):
-      newState.currentRoute = instruction
+    case .some(.routeInstructions(let instructions)):
+      newState.routeInstructions = instructions
+      
+    case .some(.routeIndex(let index)):
+      newState.routeIndex = index
       
     default:
       break
@@ -110,39 +127,24 @@ public final class AppSaga {
       })
   }
   
-  public static func streamLocation(lcManager: LocationManager) -> SagaEffect<()> {
-    return SagaEffects
-      .from(Observable<Coordinate>.create({obs in
-        lcManager.on(locationChange: {
-          obs.onNext(Coordinate(location: $0))
-        })
-        
-        return Disposables.create {}
-      }))
-      .switchMap({ coordinate in
-        return SagaEffects.await { input in
-          do {
-            let result = try coordinate.getOrThrow()
-            let place = Place(address: "", coordinate: result)
-            SagaEffects.put(AppAction.origin(place)).await(input)
-          } catch {
-            print(error)
-          }
-        }
-      })
-  }
-  
   public static func startRouting(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .takeAction({(action: AppAction) -> Void? in
+      .takeAction({(action: AppAction) -> Bool? in
         switch action {
-        case .triggerStartRouting: return ()
+        case .triggerStartRouting: return true
+        case .triggerStopRouting: return false
         default: return nil
         }
       })
       .debounce(bySeconds: 0.5)
-      .switchMap({_ in
+      .switchMap({valid in
         return SagaEffects.await(with: {input in
+          guard valid else {
+            SagaEffects.put(AppAction.routeInstructions([])).await(input)
+            SagaEffects.put(AppAction.routeIndex(0)).await(input)
+            return
+          }
+          
           let origin = SagaEffects
             .select(type: AppState.self)
             .await(input)
@@ -163,6 +165,58 @@ public final class AppSaga {
             print(error)
           }
         })
+      })
+  }
+  
+  public static func showCurrentRoute() -> SagaEffect<()> {
+    return SagaEffects
+      .takeAction({(action: AppAction) -> Int? in
+        switch action {
+        case .triggerNextRoute: return 1
+        case .triggerPrevRoute: return -1
+        default: return nil
+        }
+      })
+      .switchMap({change in
+        return SagaEffects.await(with: {input in
+          let routes = SagaEffects
+            .select(type: AppState.self)
+            .await(input)
+            .routeInstructions
+          
+          let routeIndex = SagaEffects
+            .select(type: AppState.self)
+            .await(input)
+            .routeIndex
+          
+          let newIndex = routeIndex + change
+          
+          if newIndex < routes.count && newIndex >= 0 {
+            SagaEffects.put(AppAction.routeIndex(newIndex)).await(input)
+          }
+        })
+      })
+  }
+  
+  public static func streamLocation(lcManager: LocationManager) -> SagaEffect<()> {
+    return SagaEffects
+      .from(Observable<Coordinate>.create({obs in
+        lcManager.on(locationChange: {
+          obs.onNext(Coordinate(location: $0))
+        })
+        
+        return Disposables.create {}
+      }))
+      .switchMap({ coordinate in
+        return SagaEffects.await { input in
+          do {
+            let result = try coordinate.getOrThrow()
+            let place = Place(address: "", coordinate: result)
+            SagaEffects.put(AppAction.origin(place)).await(input)
+          } catch {
+            print(error)
+          }
+        }
       })
   }
   

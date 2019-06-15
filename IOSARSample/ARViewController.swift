@@ -15,6 +15,8 @@ public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   @IBOutlet private weak var infoLbl: UILabel!
   
+  deinit { self.reduxProps?.action.stopRouting() }
+  
   public var staticProps: StaticProps!
   
   public var reduxProps: ReduxProps? {
@@ -42,6 +44,14 @@ public final class ARViewController: UIViewController {
     self.sceneView.session.pause()
   }
   
+  @IBAction func nextClicked(_ sender: UIButton) {
+    self.reduxProps?.action.nextInstruction()
+  }
+  
+  @IBAction func prevClicked(_ sender: UIButton) {
+    self.reduxProps?.action.prevInstruction()
+  }
+  
   private func showVisual(_ session: ARSession,
                           _ frame: ARFrame,
                           _ start: Coordinate,
@@ -67,11 +77,12 @@ public final class ARViewController: UIViewController {
       props.action.startRouting()
     }
     
-    self.infoLbl.text = props.state.currentRoute.street
+    guard let currentRoute = props.state.currentRoute else { return }
+    self.infoLbl.text = currentRoute.street
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
     let origin = props.state.origin.coordinate
-    let destination = props.state.currentRoute.coordinate
+    let destination = currentRoute.coordinate
     self.showVisual(session, frame, origin, destination)
   }
 }
@@ -84,11 +95,14 @@ extension ARViewController: PropContainerType {
   public struct StateProps: Equatable {
     public let origin: Place
     public let destination: Place
-    public let currentRoute: RouteInstruction
+    public let currentRoute: RouteInstruction?
   }
   
   public struct ActionProps {
+    public let nextInstruction: () -> Void
+    public let prevInstruction: () -> Void
     public let startRouting: () -> Void
+    public let stopRouting: () -> Void
   }
 }
 
@@ -97,14 +111,17 @@ extension ARViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
     return StateProps(origin: state.origin,
                       destination: state.destination,
-                      currentRoute: state.currentRoute)
+                      currentRoute: state.currentRoute())
   }
   
   public static func mapAction(dispatch: @escaping ReduxDispatcher,
                                state: GlobalState,
                                outProps: OutProps) -> ActionProps {
     return ActionProps(
-      startRouting: {dispatch(AppAction.triggerStartRouting)}
+      nextInstruction: {dispatch(AppAction.triggerNextRoute)},
+      prevInstruction: {dispatch(AppAction.triggerPrevRoute)},
+      startRouting: {dispatch(AppAction.triggerStartRouting)},
+      stopRouting: {dispatch(AppAction.triggerStopRouting)}
     )
   }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fQj-t2-wlR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fQj-t2-wlR">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -37,8 +37,8 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xK4-TE-ZWH">
                                 <rect key="frame" x="0.0" y="136" width="375" height="531"/>
                             </arscnView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Route instructions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fu-Nk-hHT">
-                                <rect key="frame" x="16" y="80" width="343" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Route instructions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fu-Nk-hHT">
+                                <rect key="frame" x="65" y="80" width="244" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="azD-V9-DRg"/>
                                 </constraints>
@@ -46,15 +46,37 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CpD-Ib-WB4">
+                                <rect key="frame" x="325" y="80" width="34" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="nextClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mwf-Iq-Ndw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHJ-ia-IRs">
+                                <rect key="frame" x="16" y="80" width="33" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Prev"/>
+                                <connections>
+                                    <action selector="prevClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bFt-R0-fRm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="leading" secondItem="lHJ-ia-IRs" secondAttribute="trailing" constant="16" id="9ng-8U-KXN"/>
                             <constraint firstItem="xK4-TE-ZWH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="AZ0-iV-L9X"/>
+                            <constraint firstItem="CpD-Ib-WB4" firstAttribute="top" secondItem="1fu-Nk-hHT" secondAttribute="top" id="Kmo-bA-khx"/>
+                            <constraint firstAttribute="trailing" secondItem="CpD-Ib-WB4" secondAttribute="trailing" constant="16" id="SWe-Yx-jdR"/>
+                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="bottom" secondItem="lHJ-ia-IRs" secondAttribute="bottom" id="XQH-0V-JeM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xK4-TE-ZWH" secondAttribute="bottom" id="ZrD-PC-3J2"/>
-                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="dJy-NG-rkT"/>
-                            <constraint firstAttribute="trailing" secondItem="1fu-Nk-hHT" secondAttribute="trailing" constant="16" id="mJW-5d-F49"/>
+                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="top" secondItem="lHJ-ia-IRs" secondAttribute="top" id="ltp-RZ-2nC"/>
+                            <constraint firstItem="CpD-Ib-WB4" firstAttribute="bottom" secondItem="1fu-Nk-hHT" secondAttribute="bottom" id="nqe-YD-zWO"/>
                             <constraint firstAttribute="trailing" secondItem="xK4-TE-ZWH" secondAttribute="trailing" id="qIx-xE-ER5"/>
+                            <constraint firstItem="CpD-Ib-WB4" firstAttribute="leading" secondItem="1fu-Nk-hHT" secondAttribute="trailing" constant="16" id="qid-nk-BC5"/>
                             <constraint firstItem="xK4-TE-ZWH" firstAttribute="top" secondItem="1fu-Nk-hHT" secondAttribute="bottom" constant="16" id="tev-sB-ODz"/>
+                            <constraint firstItem="lHJ-ia-IRs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="uGA-7w-1jC"/>
                             <constraint firstItem="1fu-Nk-hHT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="wxR-wo-RhF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
