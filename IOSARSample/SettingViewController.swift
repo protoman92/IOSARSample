@@ -45,7 +45,9 @@ public final class SettingViewController: UIViewController {
   private func didSetProps(_ props: ReduxProps) {
     if props.firstInstance {
       self.searchDestinationTF.text = "Marina One"
+      self.searchOriginTF.text = "Cecil Court"
       props.action.destinationQuery("Marina One")
+      props.action.originQuery("Cecil Court")
     }
     
     let state = props.state
