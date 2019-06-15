@@ -20,16 +20,6 @@ public final class SettingViewController: UIViewController {
     didSet { self.reduxProps.map(self.didSetProps) }
   }
   
-  override public func viewDidLoad() {
-    super.viewDidLoad()
-    
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-      title: "Visualize",
-      style: .done,
-      target: self,
-      action: #selector(self.visualize))
-  }
-  
   @IBAction func originQueryChanged(_ sender: UITextField) {
     sender.text.map({self.reduxProps?.action.originQuery($0)})
   }
@@ -38,7 +28,7 @@ public final class SettingViewController: UIViewController {
     sender.text.map({self.reduxProps?.action.destinationQuery($0)})
   }
   
-  @objc func visualize() {
+  @IBAction func visualize() {
     self.performSegue(withIdentifier: "visualize", sender: nil)
   }
   
