@@ -6,6 +6,7 @@
 //  Copyright © 2019 swiften. All rights reserved.
 //
 
+import RxSwift
 import SwiftRedux
 import UIKit
 
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppSaga.searchOrigin(geoClient: geoClient),
         AppSaga.streamLocation(lcManager: LocationManager.instance),
         AppSaga.startRouting(geoClient: geoClient),
+        AppSaga.showRoutes()
         ]).middleware
       ])(SimpleStore.create(AppState(), AppReducer.reduce))
     

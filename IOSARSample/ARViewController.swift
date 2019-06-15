@@ -13,13 +13,12 @@ import UIKit
 
 public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
+  @IBOutlet private weak var infoLbl: UILabel!
   
   public var staticProps: StaticProps!
   
   public var reduxProps: ReduxProps? {
-    didSet {
-      self.reduxProps.map(self.didSetProps)
-    }
+    didSet { self.reduxProps.map(self.didSetProps) }
   }
   
   private let lock = NSLock()
@@ -68,6 +67,8 @@ public final class ARViewController: UIViewController {
       props.action.startRouting()
     }
     
+    self.infoLbl.text = props.state.currentRoute.street
+    
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
     let origin = props.state.origin
@@ -84,6 +85,7 @@ extension ARViewController: PropContainerType {
   public struct StateProps: Equatable {
     public let origin: Place
     public let destination: Place
+    public let currentRoute: RouteInstruction
   }
   
   public struct ActionProps {
@@ -94,7 +96,9 @@ extension ARViewController: PropContainerType {
 // MARK: - PropMapperType
 extension ARViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
-    return StateProps(origin: state.origin, destination: state.destination)
+    return StateProps(origin: state.origin,
+                      destination: state.destination,
+                      currentRoute: state.currentRoute)
   }
   
   public static func mapAction(dispatch: @escaping ReduxDispatcher,

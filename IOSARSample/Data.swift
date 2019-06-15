@@ -90,7 +90,7 @@ public struct ReverseGeocoded: Decodable {
   public let results: [Result]
 }
 
-public struct RouteInstruction {
+public struct RouteInstruction: Equatable {
   public let street: String
   public let coordinate: Coordinate
 }

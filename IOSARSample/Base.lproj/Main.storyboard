@@ -35,25 +35,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xK4-TE-ZWH">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="136" width="375" height="531"/>
                             </arscnView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Route instructions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fu-Nk-hHT">
+                                <rect key="frame" x="16" y="80" width="343" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="azD-V9-DRg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xK4-TE-ZWH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="AZ0-iV-L9X"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xK4-TE-ZWH" secondAttribute="bottom" id="ZrD-PC-3J2"/>
+                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="dJy-NG-rkT"/>
+                            <constraint firstAttribute="trailing" secondItem="1fu-Nk-hHT" secondAttribute="trailing" constant="16" id="mJW-5d-F49"/>
                             <constraint firstAttribute="trailing" secondItem="xK4-TE-ZWH" secondAttribute="trailing" id="qIx-xE-ER5"/>
-                            <constraint firstItem="xK4-TE-ZWH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xQC-pY-WOO"/>
+                            <constraint firstItem="xK4-TE-ZWH" firstAttribute="top" secondItem="1fu-Nk-hHT" secondAttribute="bottom" constant="16" id="tev-sB-ODz"/>
+                            <constraint firstItem="1fu-Nk-hHT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="wxR-wo-RhF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="infoLbl" destination="1fu-Nk-hHT" id="pLk-ZQ-q28"/>
                         <outlet property="sceneView" destination="xK4-TE-ZWH" id="D8D-w3-Nzn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="402" y="27"/>
+            <point key="canvasLocation" x="400.80000000000001" y="26.53673163418291"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="2Az-3Q-fbM">
@@ -70,7 +83,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <action selector="originQueryChanged:" destination="q7L-qe-J9t" eventType="editingChanged" id="g58-aL-5jq"/>
                                 </connections>
@@ -82,7 +95,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <action selector="destinationQueryChanged:" destination="q7L-qe-J9t" eventType="editingChanged" id="7gI-tK-F6t"/>
                                 </connections>

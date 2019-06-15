@@ -14,6 +14,8 @@ public enum AppAction: ReduxActionType {
   case destinationAddressQuery(String)
   case origin(Place)
   case originAddressQuery(String)
+  case routeInstructions([RouteInstruction])
+  case currentRoute(RouteInstruction)
   
   case triggerStartRouting
 }
@@ -21,10 +23,12 @@ public enum AppAction: ReduxActionType {
 public struct AppState {
   public fileprivate(set) var origin: Place
   public fileprivate(set) var destination: Place
+  public fileprivate(set) var currentRoute: RouteInstruction
   
   public init() {
     self.destination = Place(address: "", coordinate: .zero)
     self.origin = Place(address: "", coordinate: .zero)
+    self.currentRoute = RouteInstruction(street: "", coordinate: .zero)
   }
 }
 
@@ -39,6 +43,9 @@ public final class AppReducer {
     case .some(.origin(let place)):
       newState.origin = place
       
+    case .some(.currentRoute(let instruction)):
+      newState.currentRoute = instruction
+      
     default:
       break
     }
@@ -50,13 +57,13 @@ public final class AppReducer {
 public final class AppSaga {
   public static func searchOrigin(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .take({(action: AppAction) -> String? in
+      .takeAction({(action: AppAction) -> String? in
         switch action {
         case .originAddressQuery(let query): return query
         default: return nil
         }
       })
-      .debounce(bySeconds: 1)
+      .debounce(bySeconds: 0.5)
       .switchMap({ query in
         return SagaEffects.await { input in
           do {
@@ -78,13 +85,12 @@ public final class AppSaga {
   
   public static func searchDestination(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .take({(action: AppAction) -> String? in
+      .takeAction({(action: AppAction) -> String? in
         switch action {
         case .destinationAddressQuery(let query): return query
         default: return nil
         }
       })
-      .debounce(bySeconds: 1)
       .switchMap({ query in
         return SagaEffects.await { input in
           do {
@@ -128,30 +134,51 @@ public final class AppSaga {
   
   public static func startRouting(geoClient: GeoClient) -> SagaEffect<()> {
     return SagaEffects
-      .take({(action: AppAction) -> Void? in
+      .takeAction({(action: AppAction) -> Void? in
         switch action {
         case .triggerStartRouting: return ()
         default: return nil
         }
       })
+      .debounce(bySeconds: 0.5)
       .switchMap({_ in
         return SagaEffects.await(with: {input in
           let origin = SagaEffects
-            .select(fromType: AppState.self, {$0.origin.coordinate})
+            .select(type: AppState.self)
             .await(input)
-          
+            .origin.coordinate
+
           let destination = SagaEffects
-            .select(fromType: AppState.self, {$0.destination.coordinate})
+            .select(type: AppState.self)
             .await(input)
+            .destination.coordinate
           
           do {
             let instructions = try SagaEffects
-              .call(geoClient.route(start: origin, end: destination))
+              .call(geoClient.route(start: destination, end: origin))
               .await(input)
-            
-            print(instructions)
+
+            SagaEffects.put(AppAction.routeInstructions(instructions)).await(input)
           } catch {
             print(error)
+          }
+        })
+      })
+  }
+  
+  public static func showRoutes() -> SagaEffect<()> {
+    return SagaEffects
+      .takeAction({(action: AppAction) -> [RouteInstruction]? in
+        switch action {
+        case .routeInstructions(let instructions): return instructions
+        default: return nil
+        }
+      })
+      .switchMap({(instructions) -> SagaEffect<()> in
+        return SagaEffects.await(with: {input in
+          for instruction in instructions {
+            SagaEffects.put(AppAction.currentRoute(instruction)).await(input)
+            SagaEffects.delay(bySeconds: 2).await(input)
           }
         })
       })
