@@ -68,12 +68,11 @@ public final class ARViewController: UIViewController {
     }
     
     self.infoLbl.text = props.state.currentRoute.street
-    
     let session = self.sceneView.session
     guard let frame = session.currentFrame else { return }
-    let origin = props.state.origin
-    let destination = props.state.destination
-    self.showVisual(session, frame, origin.coordinate, destination.coordinate)
+    let origin = props.state.origin.coordinate
+    let destination = props.state.currentRoute.coordinate
+    self.showVisual(session, frame, origin, destination)
   }
 }
 
