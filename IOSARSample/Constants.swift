@@ -7,5 +7,5 @@
 //
 
 public final class Constants {
-  public static let MAX_AR_DISTANCE_IN_METER: Double = 5
+  public static let MAX_AR_DISTANCE_IN_METER: Double = 1
 }

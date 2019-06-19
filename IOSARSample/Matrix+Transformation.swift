@@ -44,8 +44,8 @@ public struct MatrixTransformer {
   public func rotateAroundX<B>(radian: B) -> MatrixTransformer where
     B: BinaryFloatingPoint
   {
-    let identity = GLKMatrix4RotateX(GLKMatrix4Identity, Float(radian))
-    return self.rotate(identity)
+    let matrix = GLKMatrix4RotateX(GLKMatrix4Identity, Float(radian))
+    return self.rotate(matrix)
   }
   
   public func rotateAroundX<B>(degree: B) -> MatrixTransformer where
@@ -57,8 +57,8 @@ public struct MatrixTransformer {
   public func rotateAroundY<B>(radian: B) -> MatrixTransformer where
     B: BinaryFloatingPoint
   {
-    let identity = GLKMatrix4RotateY(GLKMatrix4Identity, Float(radian))
-    return self.rotate(identity)
+    let matrix = GLKMatrix4RotateY(GLKMatrix4Identity, Float(radian))
+    return self.rotate(matrix)
   }
   
   public func rotateAroundY<B>(degree: B) -> MatrixTransformer where
@@ -70,8 +70,8 @@ public struct MatrixTransformer {
   public func rotateAroundZ<B>(radian: B) -> MatrixTransformer where
     B: BinaryFloatingPoint
   {
-    let identity = GLKMatrix4RotateZ(GLKMatrix4Identity, Float(radian))
-    return self.rotate(identity)
+    let matrix = GLKMatrix4RotateZ(GLKMatrix4Identity, Float(radian))
+    return self.rotate(matrix)
   }
   
   public func rotateAroundZ<B>(degree: B) -> MatrixTransformer where

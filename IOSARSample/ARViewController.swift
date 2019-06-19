@@ -8,6 +8,7 @@
 
 import ARKit
 import CoreLocation
+import SwiftFP
 import SwiftRedux
 import UIKit
 
@@ -133,11 +134,33 @@ extension ARViewController: PropMapperType {
 // MARK: - ARSCNViewDelegate
 extension ARViewController: ARSCNViewDelegate {
   public func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-    let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.1)
-    let boxNode = SCNNode(geometry: box)
-    return boxNode
+    guard let image = (self.reduxProps?.state.currentRoute?.icon)
+      .flatMap({url in Try<Data>({try Data(contentsOf: url)}).value})
+      .flatMap(UIImage.init)
+      else {
+        let box = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.1)
+        let boxNode = SCNNode(geometry: box)
+        return boxNode
+    }
+    
+    let node = SCNNode()
+    let imagePlane = SCNPlane(width: 0.1, height: 0.1)
+    imagePlane.firstMaterial?.diffuse.contents = image.rounded()
+    let imageNode = SCNNode(geometry: imagePlane)
+    node.addChildNode(imageNode)
+    return node
   }
 }
 
 // MARK: - ARSessionDelegate
 extension ARViewController: ARSessionDelegate {}
+
+fileprivate extension UIImage {
+  func rounded() -> UIImage? {
+    let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: self.size)
+    UIGraphicsBeginImageContextWithOptions(self.size, false, 1)
+    UIBezierPath(roundedRect: rect, cornerRadius: self.size.height).addClip()
+    self.draw(in: rect)
+    return UIGraphicsGetImageFromCurrentImageContext()
+  }
+}
