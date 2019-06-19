@@ -17,6 +17,7 @@ public enum AppAction: ReduxActionType {
   case routeInstructions([RouteInstruction])
   case routeIndex(Int)
   case currentRoute(RouteInstruction)
+  case loadingRoutes(Bool)
   
   case triggerStartRouting
   case triggerStopRouting
@@ -29,12 +30,14 @@ public struct AppState {
   public fileprivate(set) var destination: Place
   public fileprivate(set) var routeInstructions: [RouteInstruction]
   public fileprivate(set) var routeIndex: Int
+  public fileprivate(set) var loadingRoutes: Bool
   
   public init() {
     self.destination = Place(address: "", coordinate: .zero)
     self.origin = Place(address: "", coordinate: .zero)
     self.routeInstructions = []
     self.routeIndex = 0
+    self.loadingRoutes = false
   }
   
   public func currentRoute() -> RouteInstruction? {
@@ -62,6 +65,9 @@ public final class AppReducer {
       
     case .some(.routeIndex(let index)):
       newState.routeIndex = index
+      
+    case .some(.loadingRoutes(let loading)):
+      newState.loadingRoutes = loading
       
     default:
       break
@@ -154,6 +160,9 @@ public final class AppSaga {
             .select(type: AppState.self)
             .await(input)
             .destination.coordinate
+          
+          SagaEffects.put(AppAction.loadingRoutes(true)).await(input)
+          defer { SagaEffects.put(AppAction.loadingRoutes(false)).await(input) }
           
           do {
             let instructions = try SagaEffects

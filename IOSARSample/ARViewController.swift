@@ -14,6 +14,7 @@ import UIKit
 public final class ARViewController: UIViewController {
   @IBOutlet private weak var sceneView: ARSCNView!
   @IBOutlet private weak var infoLbl: UILabel!
+  @IBOutlet private weak var progressContainer: UIView!
   
   deinit { self.reduxProps?.action.stopRouting() }
   
@@ -77,6 +78,7 @@ public final class ARViewController: UIViewController {
       props.action.startRouting()
     }
     
+    self.progressContainer.isHidden = !props.state.loading
     guard let currentRoute = props.state.currentRoute else { return }
     self.infoLbl.text = currentRoute.street
     let session = self.sceneView.session
@@ -96,6 +98,7 @@ extension ARViewController: PropContainerType {
     public let origin: Place
     public let destination: Place
     public let currentRoute: RouteInstruction?
+    public let loading: Bool
   }
   
   public struct ActionProps {
@@ -111,7 +114,8 @@ extension ARViewController: PropMapperType {
   public static func mapState(state: GlobalState, outProps: OutProps) -> StateProps {
     return StateProps(origin: state.origin,
                       destination: state.destination,
-                      currentRoute: state.currentRoute())
+                      currentRoute: state.currentRoute(),
+                      loading: state.loadingRoutes)
   }
   
   public static func mapAction(dispatch: @escaping ReduxDispatcher,
