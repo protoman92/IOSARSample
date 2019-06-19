@@ -60,8 +60,8 @@ public final class AppReducer {
     case .some(.origin(let place)):
       newState.origin = place
       
-    case .some(.routeInstructions(let instructions)):
-      newState.routeInstructions = instructions
+    case .some(.routeInstructions(let routes)):
+      newState.routeInstructions = routes
       
     case .some(.routeIndex(let index)):
       newState.routeIndex = index
@@ -165,11 +165,19 @@ public final class AppSaga {
           defer { SagaEffects.put(AppAction.loadingRoutes(false)).await(input) }
           
           do {
-            let instructions = try SagaEffects
+            let routes = try SagaEffects
               .call(geoClient.route(start: destination, end: origin))
               .await(input)
+            
+            var iconRoutes: [RouteInstruction] = []
+            
+            for route in routes {
+              let icon = geoClient.routeIcon(streetName: route.street)
+              let iconRoute = route.with(icon: icon)
+              iconRoutes.append(iconRoute)
+            }
 
-            SagaEffects.put(AppAction.routeInstructions(instructions)).await(input)
+            SagaEffects.put(AppAction.routeInstructions(iconRoutes)).await(input)
           } catch {
             print(error)
           }
@@ -233,14 +241,14 @@ public final class AppSaga {
     return SagaEffects
       .takeAction({(action: AppAction) -> [RouteInstruction]? in
         switch action {
-        case .routeInstructions(let instructions): return instructions
+        case .routeInstructions(let routes): return routes
         default: return nil
         }
       })
-      .switchMap({(instructions) -> SagaEffect<()> in
+      .switchMap({(routes) -> SagaEffect<()> in
         return SagaEffects.await(with: {input in
-          for instruction in instructions {
-            SagaEffects.put(AppAction.currentRoute(instruction)).await(input)
+          for route in routes {
+            SagaEffects.put(AppAction.currentRoute(route)).await(input)
             SagaEffects.delay(bySeconds: 2).await(input)
           }
         })

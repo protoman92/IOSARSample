@@ -93,8 +93,15 @@ public struct ReverseGeocoded: Decodable {
 public struct RouteInstruction: Equatable {
   public let street: String
   public let coordinate: Coordinate
+  public let icon: URL?
   
   public func toPlace() -> Place {
     return Place(address: self.street, coordinate: self.coordinate)
+  }
+  
+  public func with(icon: URL?) -> RouteInstruction {
+    return RouteInstruction(street: self.street,
+                            coordinate: self.coordinate,
+                            icon: icon)
   }
 }
