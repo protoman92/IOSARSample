@@ -47,7 +47,7 @@ public final class GeoClient {
       URLQueryItem(name: "end", value: end.toString()),
       URLQueryItem(name: "routeType", value: "drive"),
       URLQueryItem(name: "token", value: """
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI3NTcsInVzZXJfaWQiOjI3NTcsImVtYWlsIjoic3dpZnRlbi5zdmNAZ21haWwuY29tIiwiZm9yZXZlciI6ZmFsc2UsImlzcyI6Imh0dHA6XC9cL29tMi5kZmUub25lbWFwLnNnXC9hcGlcL3YyXC91c2VyXC9zZXNzaW9uIiwiaWF0IjoxNTYwMzQzNzYyLCJleHAiOjE1NjA3NzU3NjIsIm5iZiI6MTU2MDM0Mzc2MiwianRpIjoiNDQ3YWJiODU0YjhiNGRhMDNmNDU3MTMyNWViYTdkM2IifQ.WIG2K8RJ-r_F9RGXm4UzfVsKghgDWAlfdotbFrpNMNA
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI3NTcsInVzZXJfaWQiOjI3NTcsImVtYWlsIjoic3dpZnRlbi5zdmNAZ21haWwuY29tIiwiZm9yZXZlciI6ZmFsc2UsImlzcyI6Imh0dHA6XC9cL29tMi5kZmUub25lbWFwLnNnXC9hcGlcL3YyXC91c2VyXC9zZXNzaW9uIiwiaWF0IjoxNTYwOTU1MjgwLCJleHAiOjE1NjEzODcyODAsIm5iZiI6MTU2MDk1NTI4MCwianRpIjoiODc3OTk2N2UwOTNkNWFjMzQ4YTUwZTdmMWEwNzUyYjQifQ.bWZJDMhlJQ0w_WdKysx1A-gqB_oll9Hzc72XcfYS_1U
 """)
     ]
     

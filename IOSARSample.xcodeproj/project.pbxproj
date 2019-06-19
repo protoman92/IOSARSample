@@ -22,6 +22,7 @@
 		EE5B5E64228FC75000330ED2 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B5E63228FC75000330ED2 /* Calculation.swift */; };
 		EE646ECC228F2ACA00305FDE /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE646ECB228F2ACA00305FDE /* SettingViewController.swift */; };
 		EE646ECD228F2C3F00305FDE /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384EF6A228C97FC00DE6925 /* ARViewController.swift */; };
+		EEA6CF2D22BA824300349E3A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EEA6CF2C22BA824300349E3A /* README.md */; };
 		EEB31FDA22B14488000EB91A /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB31FD922B14488000EB91A /* Data.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		EE5B5E61228FA86200330ED2 /* Matrix+Transformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Matrix+Transformation.swift"; sourceTree = "<group>"; };
 		EE5B5E63228FC75000330ED2 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
 		EE646ECB228F2ACA00305FDE /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		EEA6CF2C22BA824300349E3A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EEB31FD922B14488000EB91A /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,11 +101,12 @@
 		D384EF5C228C97FC00DE6925 = {
 			isa = PBXGroup;
 			children = (
+				EEA6CF2C22BA824300349E3A /* README.md */,
+				729558723344BAB6FCB1C8DE /* Frameworks */,
 				D384EF67228C97FC00DE6925 /* IOSARSample */,
 				EE5163F72290827300CDE4A2 /* IOSARSampleTests */,
-				D384EF66228C97FC00DE6925 /* Products */,
-				729558723344BAB6FCB1C8DE /* Frameworks */,
 				46154EE70E957AA52D5C3E97 /* Pods */,
+				D384EF66228C97FC00DE6925 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -232,6 +235,7 @@
 			files = (
 				D384EF73228C97FE00DE6925 /* LaunchScreen.storyboard in Resources */,
 				D384EF70228C97FE00DE6925 /* Assets.xcassets in Resources */,
+				EEA6CF2D22BA824300349E3A /* README.md in Resources */,
 				D384EF6E228C97FC00DE6925 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
